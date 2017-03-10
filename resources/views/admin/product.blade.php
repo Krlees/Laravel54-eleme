@@ -16,39 +16,45 @@
         'isForm'=>true,
         'formField' => [
             [
-                'title' => '名称',
-                'name'  => 'kr',
+                'title' => '性别',
+                'name'  => 'sex',
+                'type' => 'select',
+                'value' => [
+                    [
+                        'text' => '男',
+                        'value' => '男',
+                        'checked' => false,
+                    ],
+                    [
+                        'text' => '女',
+                        'value' => '女',
+                        'checked' => true,
+                    ]
+                ],
+            ],
+            [
+                'title' => '性别',
+                'name'  => 'sex',
+                'type' => 'checkbox',
+                'value' => [
+                    [
+                        'text' => '男',
+                        'value' => '男',
+                        'checked' => false,
+                    ],
+                    [
+                        'text' => '女',
+                        'value' => '女',
+                        'checked' => true,
+                    ]
+                ],
+            ],
+            [
+                'title' => '性别',
+                'name'  => 'sex',
                 'type' => 'text',
-            ],
-            [
-                'title' => '性别',
-                'name'  => 'sex',
-                'type' => 'select'
-            ],
-            [
-                'title' => '性别',
-                'name'  => 'sex',
-                'type' => 'select'
-            ],
-            [
-                'title' => '性别',
-                'name'  => 'sex',
-                'type' => 'select'
-            ],[
-                'title' => '性别',
-                'name'  => 'sex',
-                'type' => 'select'
-            ],
-            [
-                'title' => '性别',
-                'name'  => 'sex',
-                'type' => 'select'
-            ],
-            [
-                'title' => '性别',
-                'name'  => 'sex',
-                'type' => 'select'
-            ],
+                'value'=>'男'
+            ]
         ],
     ]
 )

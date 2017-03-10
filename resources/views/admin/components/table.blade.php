@@ -7,7 +7,11 @@
 @include('admin/common/js')
 <link href="{{asset('admin/css/plugins/bootstrap-table/bootstrap-table.min.css')}}" rel="stylesheet">
 <link href="{{asset('admin/css/plugins/bootstrap-table/bootstrap-editable.css')}}" rel="stylesheet">
+<link href="{{asset('admin/css/plugins/chosen/chosen.css')}}" rel="stylesheet">
+<style>
+    #searchFrom select,input{width: 100%;}
 
+</style>
 
 <div class="wrapper wrapper-content animated fadeInRight">
 
@@ -28,15 +32,16 @@
                             <div class="row">
                                 @foreach ($formField as $i=>$v )
                                     @if( $i%4==0)
-                                        </div><div class="row">
-                                    @endif
+                            </div>
+                            <div class="row">
+                                @endif
 
-                                    <div class="col-md-3">
-                                        <label class="col-sm-4 control-label">名称：</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" placeholder="请输入名称" class="form-control" name="name">
-                                        </div>
+                                <div class="col-md-3">
+                                    {{ Form::label($v['title'], null, ['class' => 'col-sm-4 control-label']) }}
+                                    <div class="col-sm-8">
+                                        {{ formCreate($v['type'],$v['name'],$v['value']) }}
                                     </div>
+                                </div>
 
                                 @endforeach
                             </div>
@@ -78,12 +83,33 @@
 <script src="{{asset('admin/js/plugins/bootstrap-table/bootstrap-table-editable.js')}}"></script>
 <script src="{{asset('admin/js/plugins/bootstrap-table/bootstrap-editable.js')}}"></script>
 <script src="{{asset('admin/js/plugins/bootstrap-table/jquery.plugins.export.js')}}"></script>
+<script src="{{asset('admin/js/plugins/chosen/chosen.jquery.js')}}"></script>
+<script>
+    var config = {
+        '.chosen-select': {},
+        '.chosen-select-deselect': {
+            allow_single_deselect: true
+        },
+        '.chosen-select-no-single': {
+            disable_search_threshold: 10
+        },
+        '.chosen-select-no-results': {
+            no_results_text: 'Oops, nothing found!'
+        },
+        '.chosen-select-width': {
+            width: "95%"
+        }
+    }
+    for (var selector in config) {
+        $(selector).chosen(config[selector]);
+    }
+</script>
 <script>
 
     var $table = $('#table'),
-            $remove = $('#remove'),
-            selections = [], // 默认选中项
-            uniqueId = 'id'; // 主键key
+        $remove = $('#remove'),
+        selections = [], // 默认选中项
+        uniqueId = 'id'; // 主键key
 
     $(function () {
         initTable();

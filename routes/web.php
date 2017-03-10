@@ -12,7 +12,7 @@
 */
 
 use Illuminate\Support\Facades\Request;
-use Image;
+use Intervention\Image\Facades\Image;
 
 
 Route::get('/', function () {

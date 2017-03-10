@@ -180,7 +180,8 @@ return [
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,  // 图片扩展包
-        Maatwebsite\Excel\ExcelServiceProvider::class    // excel扩展包
+        Maatwebsite\Excel\ExcelServiceProvider::class,   // excel扩展包
+        Collective\Html\HtmlServiceProvider::class,      // form表单扩展包
 
     ],
 
@@ -233,6 +234,9 @@ return [
 
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'Images' => Intervention\Image\Facades\Image::class,
+        'Form' => Collective\Html\FormFacade::class,
+        'Html' => Collective\Html\HtmlFacade::class,
     ],
 
 ];
