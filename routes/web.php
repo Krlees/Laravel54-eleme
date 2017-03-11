@@ -20,15 +20,17 @@ Route::get('/', function () {
 });
 Route::post('/uploads', 'UploadsController@index');
 
-Route::group(['prefix' => 'admin'], function () {
-
-    Route::get('/{action}', function ($action) {
-//        $class = App::make('App\\Http\\Controllers\\' . $dir . '\\' . $module . 'Controller');
-//        return $class->$action();
-        return view("admin/" . $action);
-    });
-
-});
+Route::get('add','admin\ProductController@add');
+//Route::group(['prefix' => 'admin'], function () {
+//
+//    Route::get('/{action}', function ($action) {
+////        $class = App::make('App\\Http\\Controllers\\' . $dir . '\\' . $module . 'Controller');
+////        return $class->$action();
+//
+//        return view("admin/" . $action);
+//    });
+//
+//});
 
 Route::get('/show', function () {
     echo '<img src="' . asset('storage/1.jpg') . '" />';

@@ -55,6 +55,42 @@
                 'value'=>'',
                 'options' => [],
             ],
+            [
+                'title' => '性别',
+                'name'  => 'sex',
+                'type' => 'checkbox',
+                'value'=>[
+                    [
+                        'text' => '男',
+                        'value' => '男',
+                        'checked' => false,
+                    ],
+                    [
+                        'text' => '女',
+                        'value' => '女',
+                        'checked' => true,
+                    ]
+                ],
+                'options' => [],
+            ],
+            [
+                'title' => '性别',
+                'name'  => 'sex',
+                'type' => 'radio',
+                'value'=>[
+                    [
+                        'text' => '男',
+                        'value' => '男',
+                        'checked' => false,
+                    ],
+                    [
+                        'text' => '女',
+                        'value' => '女',
+                        'checked' => true,
+                    ]
+                ],
+                'options' => [],
+            ],
         ],
     ]
 )

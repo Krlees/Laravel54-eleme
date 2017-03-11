@@ -12,7 +12,12 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     /**
-     * 统一回调
+     * 统一API回调
+     *
+     * @param int $code
+     * @param string $msg
+     * @param array $data
+     * @return \Illuminate\Http\JsonResponse
      */
     public function reponseData( $code = 0,$msg = "",$data = [] )
     {
@@ -21,5 +26,19 @@ class Controller extends BaseController
             'msg'  => $msg,
             'data' => $data
         ]);
+    }
+
+    /**
+     * 表单字段统一回调
+     *
+     * @param $formTitle  表单标题,如:添加产品
+     * @param $formField  表单字段数据
+     */
+    public function reponseForm($formTitle, $formField)
+    {
+        return [
+            'formTitle' => $formTitle,
+            'formField' => $formField
+        ];
     }
 }

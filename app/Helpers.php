@@ -45,7 +45,7 @@ if (!function_exists('formCreate')) {
             $options = array_merge($options, $opt);
 
             echo Form::$type($name, $value, $options);
-        } elseif ($type == 'checkbox' || $type == 'radio') {
+        } elseif ($type == 'checkbox') {
             $opt = ['class' => 'form-control checkbox-inline'];
             $options = array_merge($options, $opt);
             if (!is_array($value)) {
@@ -53,7 +53,18 @@ if (!function_exists('formCreate')) {
             }
 
             foreach ($value as $k => $v) {
-                echo Form::$type($name, $v['value'], $v['checked'], $options);
+                echo '<label class="checkbox-inline">'.Form::checkbox($name, $v['value'], $v['checked'], $options).$v['text'].'</label>';
+            }
+
+        } elseif ($type == 'radio') {
+            $opt = ['class' => 'form-control radio-inline'];
+            $options = array_merge($options, $opt);
+            if (!is_array($value)) {
+                echo "";
+            }
+
+            foreach ($value as $k => $v) {
+                echo '<label class="radio-inline">'.Form::radio($name, $v['value'], $v['checked'], $options).$v['text'].'</label>';
             }
 
         } elseif ($type == 'select') {
@@ -110,3 +121,5 @@ EOT;
 
     }
 }
+
+
