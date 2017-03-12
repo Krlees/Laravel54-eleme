@@ -5174,7 +5174,7 @@ return (function( root, factory ) {
     // Sample
     // ====================================
     // Make : Apple
-    // Model : iPhone 4S
+    // Models : iPhone 4S
     // Orientation : 1
     // XResolution : 72 [72/1]
     // YResolution : 72 [72/1]

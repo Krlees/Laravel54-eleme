@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "b8100dae09d9928701a84a3cb8531162",
+    "content-hash": "250c8648ebd86a098c541909cf89b70f",
     "packages": [
         {
             "name": "barryvdh/laravel-debugbar",
@@ -1764,6 +1764,106 @@
                 "xlsx"
             ],
             "time": "2015-05-01T07:00:55+00:00"
+        },
+        {
+            "name": "prettus/l5-repository",
+            "version": "2.6.15",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/andersao/l5-repository.git",
+                "reference": "efca3fc20864c54a30ce95e6f0f090a0ec21e9f2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/andersao/l5-repository/efca3fc20864c54a30ce95e6f0f090a0ec21e9f2.zip",
+                "reference": "efca3fc20864c54a30ce95e6f0f090a0ec21e9f2",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/config": "~5.0",
+                "illuminate/console": "~5.0",
+                "illuminate/database": "~5.0",
+                "illuminate/filesystem": "~5.0",
+                "illuminate/http": "~5.0",
+                "illuminate/pagination": "~5.0",
+                "illuminate/support": "~5.0",
+                "prettus/laravel-validation": "1.1.*"
+            },
+            "suggest": {
+                "league/fractal": "Required to use the Fractal Presenter (0.12.*).",
+                "robclancy/presenter": "Required to use the Presenter Model (1.3.*)"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-develop": "2.2-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Prettus\\Repository\\": "src/Prettus/Repository/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Anderson Andrade",
+                    "email": "contato@andersonandra.de",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Laravel 5 - Repositories to  the database layer",
+            "keywords": [
+                "cache",
+                "eloquent",
+                "laravel",
+                "model",
+                "repository"
+            ],
+            "time": "2017-03-10T19:32:32+00:00"
+        },
+        {
+            "name": "prettus/laravel-validation",
+            "version": "1.1.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/andersao/laravel-validator.git",
+                "reference": "c3501ba6b6312b8e98098783901060c0aff2b29d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/andersao/laravel-validator/c3501ba6b6312b8e98098783901060c0aff2b29d.zip",
+                "reference": "c3501ba6b6312b8e98098783901060c0aff2b29d",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.0|~5.1",
+                "illuminate/validation": "~5.0|~5.1",
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Prettus\\Validator\\": "src/Prettus/Validator/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Anderson Andrade",
+                    "email": "contato@andersonandra.de"
+                }
+            ],
+            "description": "Laravel Validation Service",
+            "keywords": [
+                "laravel",
+                "service",
+                "validation"
+            ],
+            "time": "2015-06-08T23:53:46+00:00"
         },
         {
             "name": "psr/http-message",

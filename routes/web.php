@@ -19,8 +19,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::post('/uploads', 'UploadsController@index');
+Route::get('getlist','admin\GoodsController@getList');
 
-Route::get('add','admin\ProductController@add');
+Route::get('add','admin\GoodsController@add');
 //Route::group(['prefix' => 'admin'], function () {
 //
 //    Route::get('/{action}', function ($action) {

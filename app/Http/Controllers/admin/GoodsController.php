@@ -3,10 +3,17 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Repositories\GoodsRepositoryEloquent;
 use Illuminate\Support\Facades\Request;
 
-class ProductController extends Controller
+class GoodsController extends Controller
 {
+    private $goods;
+
+    public function __construct(GoodsRepositoryEloquent $goods)
+    {
+        $this->goods = $goods;
+    }
 
     public function index()
     {
@@ -15,11 +22,21 @@ class ProductController extends Controller
 
     public function uploads(Request $request)
     {
-        dd($request->all());
+        $res = $request->all();
+        print_R($res);exit;
+    }
+
+    public function getList()
+    {
+
     }
 
     public function add()
     {
+
+        $data = $this->goods->find(1);
+        var_dump($data);exit;
+
         $formTitle = '添加商品';
         $formField = [
             [

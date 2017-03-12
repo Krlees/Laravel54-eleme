@@ -43,7 +43,7 @@ return array(
 
     /*
     |--------------------------------------------------------------------------
-    | Model locations to include
+    | Models locations to include
     |--------------------------------------------------------------------------
     |
     | Define in which directories the ide-helper:models command should look
