@@ -33,12 +33,12 @@ class Controller extends BaseController
      *
      * @param $formTitle  表单标题,如:添加产品
      * @param $formField  表单字段数据
+     * @param $formUrl    表单提交地址
      */
-    public function reponseForm($formTitle, $formField)
+    public function reponseForm($formTitle='', $formField=[], $formUrl=null)
     {
-        return [
-            'formTitle' => $formTitle,
-            'formField' => $formField
-        ];
+        return compact('formTitle','formField','formUrl');
     }
+
+
 }

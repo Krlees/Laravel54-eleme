@@ -27,7 +27,27 @@ if (!function_exists('isImage')) {
     }
 }
 
+if (!function_exists('returnformField')) {
+    /**
+     * 返回组装的字段数据【辅助表单】
+     *
+     * @param $type
+     * @param string $title
+     * @param $name
+     * @param null $value
+     * @param $options
+     * @param null $tips
+     * @return array
+     */
+    function returnformField($type, $title = '', $name, $value = '', $options=[], $tips = null)
+    {
+        return compact('type', 'title', 'name', 'value', 'options', 'tips');
+
+    }
+}
+
 if (!function_exists('formCreate')) {
+
     /**
      * 生成html
      *
@@ -44,56 +64,57 @@ if (!function_exists('formCreate')) {
         if (in_array($type, ['text', 'date', 'datetime', 'url', 'tel', 'number', 'hidden', 'email', 'datetimeLocal', 'color'])) {
             $options = array_merge($options, $opt);
 
-            echo Form::$type($name, $value, $options);
+            return  Form::$type($name, $value, $options);
         } elseif ($type == 'checkbox') {
             $opt = ['class' => 'form-control checkbox-inline'];
             $options = array_merge($options, $opt);
             if (!is_array($value)) {
-                echo "";
+                return  "";
             }
 
             foreach ($value as $k => $v) {
-                echo '<label class="checkbox-inline">'.Form::checkbox($name, $v['value'], $v['checked'], $options).$v['text'].'</label>';
+                return  '<label class="checkbox-inline">'.Form::checkbox($name, $v['value'], isset($v['checked'])?$v['checked']:false, $options).$v['text'].'</label>';
             }
 
         } elseif ($type == 'radio') {
             $opt = ['class' => 'form-control radio-inline'];
             $options = array_merge($options, $opt);
             if (!is_array($value)) {
-                echo "";
+                return  "";
             }
 
             foreach ($value as $k => $v) {
-                echo '<label class="radio-inline">'.Form::radio($name, $v['value'], $v['checked'], $options).$v['text'].'</label>';
+                return  '<label class="radio-inline">'.Form::radio($name, $v['value'], isset($v['checked'])?$v['checked']:false, $options).$v['text'].'</label>';
             }
 
         } elseif ($type == 'select') {
 
             if (!is_array($value)) {
-                echo "";
+                return  "";
             }
             $opt = ['class' => 'chosen-select'];
             $options = array_merge($options, $opt);
 
+            $checked = false;
             foreach ($value as $k => $v) {
-                $list[] = $v['value'];
-                if ($v['checked']) {
+                $list[$v['value']] = $v['text'];
+                if (isset($v['checked']) && $v['checked'] == true) {
                     $checked = $k;
                 }
             }
 
-            echo Form::select($name, $list, $checked, $options);
+            return  Form::select($name, $list, $checked, $options);
 
         } elseif ($type == 'textarea') {
             $options = array_merge($options, $opt);
-            echo Form::textarea($name, $value, $options);
+            return  Form::textarea($name, $value, $options);
         } elseif ($type == 'image') {
-            echo Form::image($value, $name);
+            return  Form::image($value, $name);
         } elseif ($type == 'password') {
             $options = array_merge($options, $opt);
-            echo Form::password($name, $options);
+            return  Form::password($name, $options);
         } elseif ($type == 'file') {
-            echo <<<EOT
+            return  <<<EOT
 <div class="page-container">
     <p>您可以尝试文件拖拽来上传图片</p>
     <div id="uploader" class="wu-example">

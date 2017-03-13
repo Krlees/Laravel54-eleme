@@ -103,13 +103,13 @@
                     </a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a class="J_menuItem" href="product">产品中心</a>
+                            <a class="J_menuItem" href="{{url('admin/goods/index')}}">产品中心</a>
                         </li>
                         <li>
                             <a class="J_menuItem" href="uploads">产品上传</a>
                         </li>
                         <li>
-                            <a class="J_menuItem" href="add">添加产品</a>
+                            <a class="J_menuItem" href="{{url('admin/goods/add')}}">添加产品</a>
                         </li>
                     </ul>
                 </li>

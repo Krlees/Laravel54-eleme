@@ -85,26 +85,7 @@
 <script src="{{asset('admin/js/plugins/bootstrap-table/jquery.plugins.export.js')}}"></script>
 <script src="{{asset('admin/js/plugins/chosen/chosen.jquery.js')}}"></script>
 <script>
-    var config = {
-        '.chosen-select': {},
-        '.chosen-select-deselect': {
-            allow_single_deselect: true
-        },
-        '.chosen-select-no-single': {
-            disable_search_threshold: 10
-        },
-        '.chosen-select-no-results': {
-            no_results_text: 'Oops, nothing found!'
-        },
-        '.chosen-select-width': {
-            width: "95%"
-        }
-    }
-    for (var selector in config) {
-        $(selector).chosen(config[selector]);
-    }
-</script>
-<script>
+    $('select.chosen-select').chosen({width: "200px"});
 
     var $table = $('#table'),
         $remove = $('#remove'),
