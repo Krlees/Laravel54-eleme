@@ -48,4 +48,13 @@ class GoodsModel extends Model
      */
     // protected $guarded = ['price'];
 
+    protected $primaryKey = 'id';
+
+    protected $foreignKey = 'goods_id';
+
+
+    public function goods_class(){
+        return $this->belongsToMany('App\Models\GoodsClassModel','goods_class_connect',$this->foreignKey,'class_id');
+    }
+
 }

@@ -4,13 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class GoodsImgModel extends Model
+class MemberModel extends Model
 {
     /**
      * 与模型关联的数据表
      *
      * @var string
      */
-    protected $table = 'goods_img';
+    protected $table = 'member';
 
 }

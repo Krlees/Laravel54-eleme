@@ -39,6 +39,7 @@ class GoodsController extends Controller
      */
     public function add(Request $request)
     {
+
         if ($request->isMethod('post')) {
             return $this->reponseData();
         } else {
@@ -56,7 +57,7 @@ class GoodsController extends Controller
             ];
             foreach ($class as $k => $v) {
                 if ($v['value'] == $class_id) {
-                    $class[$k]['checked'] = 'true';
+                    $class[$k]['cgithecked'] = 'true';
                 }
             }
 
@@ -68,7 +69,9 @@ class GoodsController extends Controller
 //                    'aria-invalid="true"',
 //                    'datatype' => '*'
 //                ], '13-799999999'),
-                returnformField('text', '密码', 'password','',['datatype'=>'*']),
+//                returnformField('text', '密码', 'password','',['datatype'=>'*']),
+                returnformField('name','商品名称','name'),
+
                 returnformField('file', '图片', 'imgs'),
                 returnformField('checkbox', '标记', 'flag', [
                     [
