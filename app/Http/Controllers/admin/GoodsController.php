@@ -15,9 +15,20 @@ class GoodsController extends Controller
         $this->goods = $goods;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return view('admin/product');
+
+        if ($request->ajax()) {
+            return $this->reponseData();
+        } else {
+            $reponse = $this->reponseTable(url('admin/goods/index'), '', [
+                'addUrl' => url('admin/goods/add'),
+                'removeUrl' => url('admin/gooods/remove')
+            ]);
+
+            return view('admin/goods/index', compact('reponse'));
+        }
+
     }
 
     public function uploads(Request $request)
@@ -33,6 +44,18 @@ class GoodsController extends Controller
     }
 
     /**
+     * 返回已处理好的【select框】商品分类
+     *
+     * @param bool $class_id  分类id,为0则不帅选
+     * @return Array
+     */
+    public function getClassSelect($class_id = 0)
+    {
+        $class_data = $this->goods->getGoodsClass()->toArray();
+        return returnCleanData($class_data,'name','id',$class_id);
+    }
+
+    /**
      * 添加商品
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -43,35 +66,9 @@ class GoodsController extends Controller
         if ($request->isMethod('post')) {
             return $this->reponseData();
         } else {
-            $class_id = 2;
-            $data = $this->goods->find(1);
-            $class = [
-                [
-                    'text' => '饮品类',
-                    'value' => '123123',
-                ],
-                [
-                    'text' => '小吃类',
-                    'value' => '444444',
-                ],
-            ];
-            foreach ($class as $k => $v) {
-                if ($v['value'] == $class_id) {
-                    $class[$k]['cgithecked'] = 'true';
-                }
-            }
 
             $formField = [
-//                returnformField('email', '性别', 'sex', '', ['required']),
-//                returnformField('text', '手机号码', 'phone', '', [
-//                    'data-mask="99-999999999"',
-//                    'aria-required="true"',
-//                    'aria-invalid="true"',
-//                    'datatype' => '*'
-//                ], '13-799999999'),
-//                returnformField('text', '密码', 'password','',['datatype'=>'*']),
-                returnformField('name','商品名称','name'),
-
+                returnformField('text', '商品名称', 'name'),
                 returnformField('file', '图片', 'imgs'),
                 returnformField('checkbox', '标记', 'flag', [
                     [
@@ -95,10 +92,11 @@ class GoodsController extends Controller
                         'value' => '0',
                     ]
                 ]),
-                returnformField('select', '商品分类', 'class_id', $class),
-
+                returnformField('select', '商品分类', 'class_id', $this->getClassSelect(1)),
             ];
-            return view('admin/goods/add', $this->reponseForm('添加商品', $formField));
+
+            $reponse = $this->reponseForm('添加商品', $formField);
+            return view('admin/goods/add', compact('reponse'));
         }
 
     }

@@ -67,5 +67,13 @@ class GoodsRepositoryEloquent extends BaseRepository
         return $datas;
     }
 
+    /**
+     * 返回所有分类
+     */
+    public function getGoodsClass()
+    {
+        return $this->goods_class->get();
+    }
+
 
 }

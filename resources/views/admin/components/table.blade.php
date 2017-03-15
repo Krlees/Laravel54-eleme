@@ -1,9 +1,4 @@
-@php
-    $isForm = isset($isForm) ?: false;
-    $add    = isset($add) ?: true;
-    $remove = isset($remove) ?: true;
-@endphp
-
+@include('admin/common/css')
 @include('admin/common/js')
 <link href="{{asset('admin/css/plugins/bootstrap-table/bootstrap-table.min.css')}}" rel="stylesheet">
 <link href="{{asset('admin/css/plugins/bootstrap-table/bootstrap-editable.css')}}" rel="stylesheet">
@@ -30,16 +25,16 @@
                         <form class="alert form-horizontal m-t" role="form" id="searchFrom">
 
                             <div class="row">
-                                @foreach ($formField as $i=>$v )
+                                @foreach ($searchField as $i=>$v )
                                     @if( $i%4==0)
                             </div>
                             <div class="row">
                                 @endif
 
                                 <div class="col-md-3">
-                                    {{ Form::label($v['title'], null, ['class' => 'col-sm-4 control-label']) }}
-                                    <div class="col-sm-8">
-                                        {{ formCreate($v['type'],$v['name'],$v['value']) }}
+                                    {{ Form::label($v['title'].':', null, ['class' => 'col-sm-4 control-label']) }}
+                                    <div class="col-sm-8" style="padding-left: 0">
+                                        {!! formCreate($v['type'],$v['name'],$v['value']) !!}
                                     </div>
                                 </div>
 
@@ -54,12 +49,12 @@
                         </form>
                     @endif
                     <div class="btn-group hidden-xs" id="toolbar" role="group">
-                        @if($add)
+                        @if($action['add'])
                             <button type="button" class="btn btn-outline btn-default" title="新建">
                                 <i class="glyphicon glyphicon-plus" aria-hidden="true"></i>
                             </button>
                         @endif
-                        @if($remove)
+                        @if($action['remove'])
                             <button type="button" class="btn btn-outline btn-default" id="remove">
                                 <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
                             </button>
@@ -85,7 +80,7 @@
 <script src="{{asset('admin/js/plugins/bootstrap-table/jquery.plugins.export.js')}}"></script>
 <script src="{{asset('admin/js/plugins/chosen/chosen.jquery.js')}}"></script>
 <script>
-    $('select.chosen-select').chosen({width: "200px"});
+    $('select.chosen-select').chosen({});
 
     var $table = $('#table'),
         $remove = $('#remove'),
@@ -132,7 +127,7 @@
     function initTable() {
         $table.bootstrapTable({
             height: getHeight(),
-            url: "js/demo/bootstrap_table_test.json",
+            url: "{{$searchUrl}}",
             toolbar: "#toolbar",
             showColumns: true,
             pagination: true,

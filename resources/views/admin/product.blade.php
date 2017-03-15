@@ -13,8 +13,9 @@
 
 @component('admin/components/table',
     [
+        'searchUrl' => '',
         'isForm'=>true,
-        'formField' => [
+        'searchField' => [
             [
                 'title' => '性别',
                 'name'  => 'sex',

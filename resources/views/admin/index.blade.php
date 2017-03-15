@@ -58,79 +58,16 @@
                 </li>
                 <li>
                     <a href="#">
-                        <i class="fa fa-home"></i>
-                        <span class="nav-label">主页</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="fa fa fa-user-secret"></i>
-                        <span class="nav-label">供应商</span>
-                        <span class="fa arrow"></span>
-                    </a>
-                    <ul class="nav nav-second-level">
-                        <li>
-                            <a class="J_menuItem" href="dealer">供应商管理</a>
-                        </li>
-                        <li>
-                            <a class="J_menuItem" href="">供应商计划</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="fa fa fa-users"></i>
-                        <span class="nav-label">商户</span>
-                        <span class="fa arrow"></span>
-                    </a>
-                    <ul class="nav nav-second-level">
-                        <li>
-                            <a class="J_menuItem" href="">商户拓展资料</a>
-                        </li>
-                        <li>
-                            <a class="J_menuItem" href="">商户基础资料</a>
-                        </li>
-                        <li>
-                            <a class="J_menuItem" href="">管理拓展资料</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#">
                         <i class="fa fa fa-navicon"></i>
-                        <span class="nav-label">产品</span>
+                        <span class="nav-label">商品</span>
                         <span class="fa arrow"></span>
                     </a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a class="J_menuItem" href="{{url('admin/goods/index')}}">产品中心</a>
+                            <a class="J_menuItem" href="{{url('admin/goods/index')}}">商品管理</a>
                         </li>
                         <li>
-                            <a class="J_menuItem" href="uploads">产品上传</a>
-                        </li>
-                        <li>
-                            <a class="J_menuItem" href="{{url('admin/goods/add')}}">添加产品</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="fa fa fa-money"></i>
-                        <span class="nav-label">钱包</span>
-                        <span class="fa arrow"></span>
-                    </a>
-                    <ul class="nav nav-second-level">
-                        <li>
-                            <a class="J_menuItem" href="">钱包流水</a>
-                        </li>
-                        <li>
-                            <a class="J_menuItem" href="">钱包日结算</a>
-                        </li>
-                        <li>
-                            <a class="J_menuItem" href="">钱包列表</a>
-                        </li>
-                        <li>
-                            <a class="J_menuItem" href="">调账记录</a>
+                            <a class="J_menuItem" href="{{url('admin/goods/add')}}">添加商品</a>
                         </li>
                     </ul>
                 </li>

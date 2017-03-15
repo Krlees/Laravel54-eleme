@@ -39,7 +39,7 @@ if (!function_exists('returnformField')) {
      * @param null $tips
      * @return array
      */
-    function returnformField($type, $title = '', $name, $value = '', $options=[], $tips = null)
+    function returnformField($type, $title = '', $name, $value = '', $options = [], $tips = null)
     {
         return compact('type', 'title', 'name', 'value', 'options', 'tips');
 
@@ -64,33 +64,33 @@ if (!function_exists('formCreate')) {
         if (in_array($type, ['text', 'date', 'datetime', 'url', 'tel', 'number', 'hidden', 'email', 'datetimeLocal', 'color'])) {
             $options = array_merge($options, $opt);
 
-            return  Form::$type($name, $value, $options);
+            return Form::$type($name, $value, $options);
         } elseif ($type == 'checkbox') {
             $opt = ['class' => 'form-control checkbox-inline'];
             $options = array_merge($options, $opt);
             if (!is_array($value)) {
-                return  "";
+                return "";
             }
 
             foreach ($value as $k => $v) {
-                return  '<label class="checkbox-inline">'.Form::checkbox($name, $v['value'], isset($v['checked'])?$v['checked']:false, $options).$v['text'].'</label>';
+                return '<label class="checkbox-inline">' . Form::checkbox($name, $v['value'], isset($v['checked']) ? $v['checked'] : false, $options) . $v['text'] . '</label>';
             }
 
         } elseif ($type == 'radio') {
             $opt = ['class' => 'form-control radio-inline'];
             $options = array_merge($options, $opt);
             if (!is_array($value)) {
-                return  "";
+                return "";
             }
 
             foreach ($value as $k => $v) {
-                return  '<label class="radio-inline">'.Form::radio($name, $v['value'], isset($v['checked'])?$v['checked']:false, $options).$v['text'].'</label>';
+                return '<label class="radio-inline">' . Form::radio($name, $v['value'], isset($v['checked']) ? $v['checked'] : false, $options) . $v['text'] . '</label>';
             }
 
         } elseif ($type == 'select') {
 
             if (!is_array($value)) {
-                return  "";
+                return "";
             }
             $opt = ['class' => 'chosen-select'];
             $options = array_merge($options, $opt);
@@ -99,22 +99,22 @@ if (!function_exists('formCreate')) {
             foreach ($value as $k => $v) {
                 $list[$v['value']] = $v['text'];
                 if (isset($v['checked']) && $v['checked'] == true) {
-                    $checked = $k;
+                    $checked = $v['value'];
                 }
             }
 
-            return  Form::select($name, $list, $checked, $options);
+            return Form::select($name, $list, $checked, $options);
 
         } elseif ($type == 'textarea') {
             $options = array_merge($options, $opt);
-            return  Form::textarea($name, $value, $options);
+            return Form::textarea($name, $value, $options);
         } elseif ($type == 'image') {
-            return  Form::image($value, $name);
+            return Form::image($value, $name);
         } elseif ($type == 'password') {
             $options = array_merge($options, $opt);
-            return  Form::password($name, $options);
+            return Form::password($name, $options);
         } elseif ($type == 'file') {
-            return  <<<EOT
+            return <<<EOT
 <div class="page-container">
     <p>您可以尝试文件拖拽来上传图片</p>
     <div id="uploader" class="wu-example">
@@ -140,6 +140,29 @@ if (!function_exists('formCreate')) {
 EOT;
         }
 
+    }
+
+    /**
+     * 返回已处理好的【select框】商品分类
+     *
+     * @param $data
+     * @param $name
+     * @param $value
+     * @param $checkid  为0则不帅选
+     * @return array
+     */
+    function returnCleanData($data, $name, $value, $checkid = 0)
+    {
+        $return = [];
+        foreach ($data as $k => $v) {
+            $return[$k]['text'] = $v[$name];
+            $return[$k]['value'] = $v[$value];
+            if ($checkid == $v[$value]) {
+                $return[$k]['checked'] = true;
+            }
+        }
+
+        return $return;
     }
 }
 
