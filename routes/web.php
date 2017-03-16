@@ -14,15 +14,13 @@
 
 use Intervention\Image\Facades\Image;
 
-
 Route::get('/', function () {
     return view('welcome');
 });
-//Route::post('/uploads', 'UploadsController@index');
-//
+
 Route::group(['prefix' => 'admin'], function () {
 
-    Route::get('/index',function (){
+    Route::get('index',function (){
         return view('admin/index');
     });
     Route::get('dashboard',function (){
@@ -33,6 +31,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::any('index','admin\GoodsController@index');
         Route::any('add','admin\GoodsController@add');
         Route::any('edit','admin\GoodsController@edit');
+        Route::any('del','admin\GoodsController@del');
     });
 
 

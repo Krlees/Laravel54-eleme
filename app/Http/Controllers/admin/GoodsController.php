@@ -19,11 +19,20 @@ class GoodsController extends Controller
     {
 
         if ($request->ajax()) {
-            return $this->reponseData();
+            $offset = $request->input('offset');
+            $limit = $request->input('limit', 10);
+
+            // 获取商品列表
+            $results = $this->goods->ajaxGoodsList($offset, $limit);
+
+            return $this->reponseDataTabel($results['total'], $results['rows']);
+
         } else {
             $reponse = $this->reponseTable(url('admin/goods/index'), '', [
                 'addUrl' => url('admin/goods/add'),
-                'removeUrl' => url('admin/gooods/remove')
+                'editUrl' => url('admin/goods/edit'),
+                'removeUrl' => url('admin/goods/del'),
+                'autoSearch' => true
             ]);
 
             return view('admin/goods/index', compact('reponse'));
@@ -46,13 +55,13 @@ class GoodsController extends Controller
     /**
      * 返回已处理好的【select框】商品分类
      *
-     * @param bool $class_id  分类id,为0则不帅选
+     * @param bool $class_id 分类id,为0则不帅选
      * @return Array
      */
     public function getClassSelect($class_id = 0)
     {
         $class_data = $this->goods->getGoodsClass()->toArray();
-        return returnCleanData($class_data,'name','id',$class_id);
+        return returnCleanData($class_data, 'name', 'id', $class_id);
     }
 
     /**
@@ -105,7 +114,16 @@ class GoodsController extends Controller
     public function edit()
     {
 
+    }
 
+    public function del(Request $request)
+    {
+        $ids = $request->input('ids');
+        if( !is_array($ids) ){
+            $ids = explode(",",$ids);
+        }
+
+        return $this->reponseData(0,'', $ids);
     }
 
 

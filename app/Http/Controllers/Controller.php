@@ -51,10 +51,21 @@ class Controller extends BaseController
     {
         $isForm = $searchField ? true : false;
 
-        $action['add'] = ($action && $action['addUrl']) ? true : false;
-        $action['remove'] = ($action && $action['removeUrl']) ? true : false;
+        $action['add'] = isset($action['addUrl']) ? true : false;
+        $action['remove'] = isset($action['removeUrl']) ? true : false;
+        $action['autoSearch'] = isset($action['autoSearch']) ? true : false;
 
         return compact('searchUrl', 'searchField', 'isForm', 'action');
+    }
+
+    /**
+     * 返回bootstrap-table需要的数据格式
+     *
+     * @param $data
+     */
+    public function reponseDataTabel($total,$rows)
+    {
+        return compact('total','rows');
     }
 
 

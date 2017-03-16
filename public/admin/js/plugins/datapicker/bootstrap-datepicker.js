@@ -333,7 +333,7 @@
 				];
 			}
 			this._events.push(
-				// Component: listen for blur on element descendants
+				// Components: listen for blur on element descendants
 				[this.element, '*', {
 					blur: $.proxy(function(e){
 						this._focused_from = e.target;

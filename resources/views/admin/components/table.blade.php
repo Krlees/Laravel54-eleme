@@ -1,3 +1,4 @@
+@inject('tablePresenter','App\Presenters\Admin\Components\TablePresenter')
 @include('admin/common/css')
 @include('admin/common/js')
 <link href="{{asset('admin/css/plugins/bootstrap-table/bootstrap-table.min.css')}}" rel="stylesheet">
@@ -5,7 +6,6 @@
 <link href="{{asset('admin/css/plugins/chosen/chosen.css')}}" rel="stylesheet">
 <style>
     #searchFrom select,input{width: 100%;}
-
 </style>
 
 <div class="wrapper wrapper-content animated fadeInRight">
@@ -49,11 +49,7 @@
                         </form>
                     @endif
                     <div class="btn-group hidden-xs" id="toolbar" role="group">
-                        @if($action['add'])
-                            <button type="button" class="btn btn-outline btn-default" title="新建">
-                                <i class="glyphicon glyphicon-plus" aria-hidden="true"></i>
-                            </button>
-                        @endif
+                        {!!  $tablePresenter->createAction($action['addUrl']) !!}
                         @if($action['remove'])
                             <button type="button" class="btn btn-outline btn-default" id="remove">
                                 <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
@@ -139,7 +135,7 @@
             cellStyle: true,
             striped: true,
             cache: false,
-            search: false,
+            search: '{{$action['autoSearch']}}',
             sortable: true,
             sortOrder: "asc",
             uniqueId: uniqueId, // 设置主键
@@ -223,11 +219,19 @@
         /* 删除事件 */
         $remove.click(function () {
             var ids = getIdSelections();
-            $table.bootstrapTable('remove', {
-                field: uniqueId,
-                values: ids
+            $.getJSON("{{$action['removeUrl']}}",{ids:ids.join(',')},function (result) {
+                if( result.code == '0' ){
+                    $table.bootstrapTable('remove', {
+                        field: uniqueId,
+                        values: ids
+                    });
+                    $remove.prop('disabled', true);
+                }
+                else {
+                    layer.msg("操作失败");
+                }
             });
-            $remove.prop('disabled', true);
+
         });
 
         $(window).resize(function () {
@@ -292,10 +296,19 @@
     /* 操作选项 */
     window.operateEvents = {
         'click .edit': function (e, value, row, index) {
-            alert('You click like action, row: ' + JSON.stringify(row));
+            window.location.href="{{$action['editUrl']}}?id="+row[uniqueId];
+//            alert('You click like action, row: ' + JSON.stringify(row));
         },
         'click .remove': function (e, value, row, index) {
-            $table.bootstrapTable('removeByUniqueId', row[uniqueId]);   // 根据uniqueId删除指定行
+            $.getJSON("{{$action['removeUrl']}}",{ids:row[uniqueId]},function (result) {
+                if(result.code == '0' ){
+                    $table.bootstrapTable('removeByUniqueId', row[uniqueId]);   // 根据uniqueId删除指定行
+                }
+                else {
+                    layer.msg("操作失败");
+                }
+            });
+
         }
     };
 

@@ -75,5 +75,19 @@ class GoodsRepositoryEloquent extends BaseRepository
         return $this->goods_class->get();
     }
 
+    /**
+     * ajax获取商品列表
+     *
+     * @param $start
+     * @param $limit
+     * @return array
+     */
+    public function ajaxGoodsList($start,$limit)
+    {
+        $rows = $this->goods->offset($start)->limit($limit)->get()->toArray();
+        $total = $this->goods->count();
+
+        return compact('rows','total');
+    }
 
 }
