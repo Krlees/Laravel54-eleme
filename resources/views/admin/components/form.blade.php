@@ -1,3 +1,4 @@
+@inject('formPresenter','App\Presenters\Admin\FormPresenter')
 @include('admin/common/css')
 <link rel="stylesheet" type="text/css" href="{{asset('admin/css/Validform_v5.3.2.css')}}">
 <link href="{{asset('admin/css/plugins/chosen/chosen.css')}}" rel="stylesheet">
@@ -19,7 +20,7 @@
                         <div class="form-group">
                             {!! Form::label($v['title'], null, ['class' => 'col-sm-3 control-label']) !!}
                             <div class="col-sm-8">
-                                {!! formCreate($v['type'],$v['name'],$v['value'],$v['options']) !!}
+                                {!! $formPresenter->bulidFieldHtml($v['type'],$v['name'],$v['value'],$v['options']) !!}
                                 @if( isset($v['tips']) )
                                     <span class="m-b-none"><i
                                                 class="fa fa-info-circle"></i> {{$v['tips']}}</span>
@@ -31,6 +32,7 @@
                     <div class="form-group">
                         <div class="col-sm-8 col-sm-offset-3">
                             <button class="btn btn-primary" type="submit">提交</button>
+                            <a href="javascript:" onclick="javascript:history.go(-1)" class="btn btn-default" id="back">返回</a>
                         </div>
                     </div>
                     {!! Form::close() !!}
@@ -47,41 +49,48 @@
 @include('admin/common/js')
 <script src="{{asset('admin/js/plugins/chosen/chosen.jquery.js')}}"></script>
 <script src="{{asset('admin/js/Validform_v5.3.2_min.js')}}"></script>
-<script src="{{asset('admin/js/plugins/webuploader/webuploader.min.js')}}"></script>
-<script src="{{asset('admin/js/uploads.setting.js')}}"></script>
 <script src="{{asset('admin/js/plugins/jasny/jasny-bootstrap.min.js')}}"></script>
 <script>
-
     $('select.chosen-select').chosen({width: "200px"});
 
     var $valid = $(".validform").Validform({
-        tiptype: 3,
-        ajaxPost:true,
-        datatype:{
-            "zh": /^[\u4E00-\u9FA5\uf900-\ufa2d]$/,
-            "username":function(gets,obj,curform,regxp){
-                //参数gets是获取到的表单元素值，obj为当前表单元素，curform为当前验证的表单，regxp为内置的一些正则表达式的引用;
-                var reg1=/^[\w\.]{4,16}$/,
-                        reg2=/^[\u4E00-\u9FA5\uf900-\ufa2d]{2,8}$/;
+        tiptype: function (msg, o, cssctl) {
 
-                if(reg1.test(gets)){return true;}
-                if(reg2.test(gets)){return true;}
+        },
+        ajaxPost: true,
+        datatype: {
+            "zh": /^[\u4E00-\u9FA5\uf900-\ufa2d]$/,
+            "username": function (gets, obj, curform, regxp) {
+                //参数gets是获取到的表单元素值，obj为当前表单元素，curform为当前验证的表单，regxp为内置的一些正则表达式的引用;
+                var reg1 = /^[\w\.]{4,16}$/,
+                        reg2 = /^[\u4E00-\u9FA5\uf900-\ufa2d]{2,8}$/;
+
+                if (reg1.test(gets)) {
+                    return true;
+                }
+                if (reg2.test(gets)) {
+                    return true;
+                }
                 return false;
 
                 //注意return可以返回true 或 false 或 字符串文字，true表示验证通过，返回字符串表示验证失败，字符串作为错误提示显示，返回false则用errmsg或默认的错误提示;
             }
 
         },
-        beforeCheck:function(curform){
+        beforeCheck: function (curform) {
             //在表单提交执行验证之前执行的函数，curform参数是当前表单对象。
             //这里明确return false的话将不会继续执行验证操作;
         },
-        beforeSubmit:function(curform){
+        beforeSubmit: function (curform) {
+
             //在验证成功后，表单提交前执行的函数，curform参数是当前表单对象。
             //这里明确return false的话表单将不会提交;
         },
-        callback:function(data){
-            console.log(data)
+        callback: function (data) {
+            if (data.code == '0') {
+                layer.msg('操作成功');
+            }
+            $('#Validform_msg').hide();
 
         }
 

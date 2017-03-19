@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\admin;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\BaseController;
 use App\Repositories\GoodsRepositoryEloquent;
 use Illuminate\Http\Request;
 
-class GoodsController extends Controller
+class GoodsController extends BaseController
 {
     private $goods;
 
@@ -28,7 +28,7 @@ class GoodsController extends Controller
             return $this->reponseDataTabel($results['total'], $results['rows']);
 
         } else {
-            $reponse = $this->reponseTable(url('admin/goods/index'), '', [
+            $reponse = $this->reponseTable(url('admin/goods/index'), f, [
                 'addUrl' => url('admin/goods/add'),
                 'editUrl' => url('admin/goods/edit'),
                 'removeUrl' => url('admin/goods/del'),
@@ -50,18 +50,6 @@ class GoodsController extends Controller
     public function getList()
     {
 
-    }
-
-    /**
-     * 返回已处理好的【select框】商品分类
-     *
-     * @param bool $class_id 分类id,为0则不帅选
-     * @return Array
-     */
-    public function getClassSelect($class_id = 0)
-    {
-        $class_data = $this->goods->getGoodsClass()->toArray();
-        return returnCleanData($class_data, 'name', 'id', $class_id);
     }
 
     /**
@@ -124,6 +112,19 @@ class GoodsController extends Controller
         }
 
         return $this->reponseData(0,'', $ids);
+    }
+
+    /**
+     * 返回已处理好的【select框】商品分类
+     *
+     * @param bool $class_id 分类id,为0则不帅选
+     * @return Array
+     */
+    private function getClassSelect($class_id = 0)
+    {
+        $class_data = $this->goods->getGoodsClass()->toArray();
+
+        return returnCleanSelect($class_data, 'name', 'id', $class_id);
     }
 
 

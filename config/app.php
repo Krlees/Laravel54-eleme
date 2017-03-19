@@ -182,6 +182,7 @@ return [
         Intervention\Image\ImageServiceProvider::class,  // 图片扩展包
         Maatwebsite\Excel\ExcelServiceProvider::class,   // excel扩展包
         Collective\Html\HtmlServiceProvider::class,      // form表单扩展包
+        Zizaco\Entrust\EntrustServiceProvider::class,    // 角色权限包
 
     ],
 
@@ -237,6 +238,7 @@ return [
         'Images' => Intervention\Image\Facades\Image::class,
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
+        'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
     ],
 
 ];

@@ -15,12 +15,12 @@ class CreateGoodsTable extends Migration
     {
         Schema::create('goods', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name',128)->index()->commit("商品名称");
-            $table->string('desc',128)->commit("简短描述");
-            $table->text('content')->commit("详情");
-            $table->decimal('price',8,2)->unsigned()->commit("价格");
-            $table->decimal('market_price',8,2)->unsigned()->commit("市场价格");
-            $table->smallInteger('storage')->unsigned()->commit("库存");
+            $table->string('name',128)->index()->comment("商品名称");
+            $table->string('desc',128)->comment("简短描述");
+            $table->text('content')->comment("详情");
+            $table->decimal('price',8,2)->unsigned()->comment("价格");
+            $table->decimal('market_price',8,2)->unsigned()->comment("市场价格");
+            $table->smallInteger('storage')->unsigned()->comment("库存");
             $table->timestamps();
         });
     }

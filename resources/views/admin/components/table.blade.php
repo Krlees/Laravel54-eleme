@@ -1,4 +1,5 @@
-@inject('tablePresenter','App\Presenters\Admin\Components\TablePresenter')
+@inject('tablePresenter','App\Presenters\Admin\TablePresenter')
+@inject('formPresenter','App\Presenters\Admin\FormPresenter')
 @include('admin/common/css')
 @include('admin/common/js')
 <link href="{{asset('admin/css/plugins/bootstrap-table/bootstrap-table.min.css')}}" rel="stylesheet">
@@ -34,7 +35,7 @@
                                 <div class="col-md-3">
                                     {{ Form::label($v['title'].':', null, ['class' => 'col-sm-4 control-label']) }}
                                     <div class="col-sm-8" style="padding-left: 0">
-                                        {!! formCreate($v['type'],$v['name'],$v['value']) !!}
+                                        {!! $formPresenter->bulidFieldHtml($v['type'],$v['name'],$v['value']) !!}
                                     </div>
                                 </div>
 
@@ -49,12 +50,8 @@
                         </form>
                     @endif
                     <div class="btn-group hidden-xs" id="toolbar" role="group">
-                        {!!  $tablePresenter->createAction($action['addUrl']) !!}
-                        @if($action['remove'])
-                            <button type="button" class="btn btn-outline btn-default" id="remove">
-                                <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
-                            </button>
-                        @endif
+                        {!!  $tablePresenter->bulidCreateAction($action['addUrl']) !!}
+                        {!! $tablePresenter->bulidRemoveAction($action['removeUrl']) !!}
                     </div>
                     <table id="table">
                     </table>
@@ -76,6 +73,7 @@
 <script src="{{asset('admin/js/plugins/bootstrap-table/jquery.plugins.export.js')}}"></script>
 <script src="{{asset('admin/js/plugins/chosen/chosen.jquery.js')}}"></script>
 <script>
+
     $('select.chosen-select').chosen({});
 
     var $table = $('#table'),
@@ -142,56 +140,7 @@
             pageList: [10, 25, 50],
             sidePagination: "server",
             responseHandler: "responseHandler",
-            columns: [
-                {
-                    field: 'state',
-                    checkbox: true,
-                    align: 'center',
-                    valign: 'middle'
-                },
-                {
-                    field: 'id',
-                    title: 'ID',
-                    align: 'center',
-                    sortable: true
-                },
-                {
-                    field: 'name',
-                    title: 'Name',
-                    sortable: true,
-                    align: 'center'
-                },
-                {
-                    field: 'price',
-                    title: 'Price',
-                    align: 'center',
-                    formatter: function (value, row, index) {
-                        return '&yen;' + row.price;
-                    },
-//                        editable: {
-//                            type: 'text',
-//                            title: 'Item Price',
-//                            validate: function (value) {
-//                                value = $.trim(value);
-//                                if (!value) {
-//                                    return 'error: 不可为空';
-//                                }
-//                                var data = $table.bootstrapTable('getData'),
-//                                        index = $(this).parents('tr').data('index');
-//                                return '';
-//                            }
-//                        }
-                },
-                {
-                    field: '',
-                    title: '操作',
-                    align: 'center',
-                    events: operateEvents,
-                    formatter: function (value, row, index) {
-                        return operateFormatter(row, ['view', 'edit', 'remove']);
-                    },
-                }
-            ],
+            columns: colums,
             queryParams: function (params) {   //设置查询参数
                 var paramForm = getParamSearch();
                 return $.extend({}, params, paramForm); // 合并参数
@@ -300,6 +249,8 @@
 //            alert('You click like action, row: ' + JSON.stringify(row));
         },
         'click .remove': function (e, value, row, index) {
+            console.log(row);
+            alert(1)
             $.getJSON("{{$action['removeUrl']}}",{ids:row[uniqueId]},function (result) {
                 if(result.code == '0' ){
                     $table.bootstrapTable('removeByUniqueId', row[uniqueId]);   // 根据uniqueId删除指定行

@@ -9,6 +9,14 @@
 
 </head>
 <body class="gray-bg">
+<script>
+// 必须定义要显示的字段
+var colums = [
+    {!! createCheckbox() !!}
+    {!! createColums('ID','id') !!}
+    {!! createEvents() !!}
+];
+</script>
 
 @component('admin/components/table',$reponse)
 @endcomponent

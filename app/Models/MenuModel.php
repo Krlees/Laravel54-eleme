@@ -14,4 +14,6 @@ class MenuModel extends Model
     protected $table = 'menu';
 
     protected $primaryKey = 'id';
+
+    protected $guarded = [];
 }
