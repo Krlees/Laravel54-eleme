@@ -4,10 +4,13 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\BaseController;
 use App\Repositories\GoodsRepositoryEloquent;
+use App\Traits\Admin\FormTraits;
 use Illuminate\Http\Request;
 
 class GoodsController extends BaseController
 {
+    use FormTraits;
+
     private $goods;
 
     public function __construct(GoodsRepositoryEloquent $goods)
@@ -98,7 +101,6 @@ class GoodsController extends BaseController
 
     }
 
-
     public function edit()
     {
 
@@ -114,6 +116,7 @@ class GoodsController extends BaseController
         return $this->reponseData(0,'', $ids);
     }
 
+
     /**
      * 返回已处理好的【select框】商品分类
      *
@@ -123,8 +126,7 @@ class GoodsController extends BaseController
     private function getClassSelect($class_id = 0)
     {
         $class_data = $this->goods->getGoodsClass()->toArray();
-
-        return returnCleanSelect($class_data, 'name', 'id', $class_id);
+        return $this->returnSelectFormat($class_data, 'name', 'id', $class_id);
     }
 
 
