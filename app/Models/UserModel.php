@@ -6,7 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 
-class User extends Authenticatable
+class UserModel extends Authenticatable
 {
     use Notifiable;
     use EntrustUserTrait;

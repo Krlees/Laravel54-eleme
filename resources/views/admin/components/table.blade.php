@@ -7,9 +7,10 @@
 <link href="{{asset('admin/css/plugins/chosen/chosen.css')}}" rel="stylesheet">
 <style>
     #searchFrom select,input{width: 100%;}
+    .fixed-table-pagination{padding: 0 12px;}
 </style>
 
-<div class="wrapper wrapper-content animated fadeInRight">
+
 
 
     <!-- Panel Other -->
@@ -62,7 +63,7 @@
         </div>
     </div>
     <!-- End Panel Other -->
-</div>
+
 
 <script src="{{asset('admin/js/plugins/bootstrap-table/bootstrap-table.min.js')}}"></script>
 <script src="{{asset('admin/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js')}}"></script>
@@ -138,6 +139,7 @@
             sortOrder: "asc",
             uniqueId: uniqueId, // 设置主键
             pageList: [10, 25, 50],
+            pageSize:3,
             sidePagination: "server",
             responseHandler: "responseHandler",
             columns: colums,
@@ -245,7 +247,7 @@
     /* 操作选项 */
     window.operateEvents = {
         'click .edit': function (e, value, row, index) {
-            window.location.href="{{$action['editUrl']}}?id="+row[uniqueId];
+            window.location.href="{{$action['editUrl']}}/"+row[uniqueId];
 //            alert('You click like action, row: ' + JSON.stringify(row));
         },
         'click .remove': function (e, value, row, index) {

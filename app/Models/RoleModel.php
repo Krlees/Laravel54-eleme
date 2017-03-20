@@ -3,7 +3,7 @@ namespace App\Models;
 
 use Zizaco\Entrust\EntrustRole;
 
-class Role extends EntrustRole
+class RoleModel extends EntrustRole
 {
 
 }

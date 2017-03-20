@@ -6,41 +6,15 @@
  */
 
 require('./bootstrap');
-import Vue from 'vue';
-import VueRouter from 'vue-router';
-import VueResource from 'vue-resource';
-import App from './App';
-import goods from 'components/goods/goods';
-import ratings from 'components/ratings/ratings';
-import seller from 'components/seller/seller';
 
-import 'common/stylus/index.styl';
+/**
+ * Next, we will create a fresh Vue application instance and attach it to
+ * the page. Then, you may begin adding components to this application
+ * or customize the JavaScript scaffolding to fit your unique needs.
+ */
 
-Vue.use(VueRouter);
-Vue.use(VueResource);
+Vue.component('example', require('./components/Example.vue'));
 
-const routes = [{
-    path: '/',
-    component: goods
-}, {
-    path: '/goods',
-    component: goods
-}, {
-    path: '/ratings',
-    component: ratings
-}, {
-    path: '/seller',
-    component: seller
-}];
-
-const router = new VueRouter({
-    linkActiveClass: 'active',
-    routes
-});
-
-/* eslint-disable no-new */
-new Vue({
-    el: '#app',
-    router,
-    render: h => h(App)
+const app = new Vue({
+    el: '#app'
 });

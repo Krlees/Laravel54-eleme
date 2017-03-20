@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\BaseController;
 use App\Repositories\MenuRepositoryEloquent;
+use App\Services\Admin\MenuService;
 use App\Traits\Admin\FormTraits;
 use Illuminate\Http\Request;
 
@@ -13,7 +14,7 @@ class MenuController extends BaseController
 
     private $menu;
 
-    public function __construct(MenuRepositoryEloquent $menu)
+    public function __construct(MenuService $menu)
     {
         $this->menu = $menu;
     }
@@ -27,7 +28,7 @@ class MenuController extends BaseController
             // 获取菜单列表
             $results = $this->menu->ajaxMenuList($offset, $limit);
 
-            return $this->reponseAjaxTable($results['total'], $results['rows']);
+            return $this->responseAjaxTable($results['total'], $results['rows']);
         } else {
             $reponse = $this->returnSearchFormat(url('admin/menu/index'), false, [
                 'addUrl' => url('admin/menu/add'),

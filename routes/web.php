@@ -15,28 +15,28 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::group(['prefix' => 'admin'], function () {
+Route::group(['namespace' => 'Admin','prefix' => 'admin'], function () {
     Route::get('/login', function() {
         return view('admin/login');
     });
 
-    Route::get('index', 'admin\IndexController@index');
+    Route::get('index', 'IndexController@index');
     Route::get('dashboard', function () {
         return view('admin/dashboard');
     });
 
     Route::group(['prefix' => 'goods'], function () {
-        Route::any('index', 'admin\GoodsController@index');
-        Route::any('add', 'admin\GoodsController@add');
-        Route::any('edit', 'admin\GoodsController@edit');
-        Route::any('del', 'admin\GoodsController@del');
+        Route::any('index', 'GoodsController@index');
+        Route::any('add', 'GoodsController@add');
+        Route::any('edit', 'GoodsController@edit');
+        Route::any('del', 'GoodsController@del');
     });
 
     Route::group(['prefix' => 'menu'], function () {
-        Route::any('index', 'admin\MenuController@index');
-        Route::any('add', 'admin\MenuController@add');
-        Route::any('edit/{id}', 'admin\MenuController@edit');
-        Route::any('del', 'admin\MenuController@del');
+        Route::any('index', 'MenuController@index');
+        Route::any('add', 'MenuController@add');
+        Route::any('edit/{id}', 'MenuController@edit');
+        Route::any('del', 'MenuController@del');
     });
 
 });

@@ -53,6 +53,8 @@
 <script>
     $('select.chosen-select').chosen({width: "200px"});
 
+    var targetUrl = "{{$formUrl}}";
+
     var $valid = $(".validform").Validform({
         tiptype: function (msg, o, cssctl) {
 
@@ -89,6 +91,8 @@
         callback: function (data) {
             if (data.code == '0') {
                 layer.msg('操作成功');
+                if(targetUrl)
+                    setTimeout("window.location.href='"+targetUrl+"'",1000);
             }
             $('#Validform_msg').hide();
 

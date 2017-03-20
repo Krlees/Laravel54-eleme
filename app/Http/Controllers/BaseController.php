@@ -73,7 +73,7 @@ class BaseController extends Controller
      * @param $rows
      * @return array
      */
-    public function reponseAjaxTable($total, $rows)
+    public function responseAjaxTable($total, $rows)
     {
         return compact('total', 'rows');
     }

@@ -27,7 +27,7 @@
         </div>
         <h3>欢迎使用 H+</h3>
 
-        <form class="m-t" role="form" action="{{url('admin/index')}}">
+        <form class="m-t" role="form" method="POST"  action="{{ route('login') }}">
             <div class="form-group">
                 <input type="email" class="form-control" placeholder="用户名" required="">
             </div>
