@@ -32,7 +32,7 @@ class PermissionRepositoryEloquent extends BaseRepository
     {
         $sort = $sort ?: $this->perm->getKeyName();
 
-        $rows = $this->where($where)->orderBy($sort,$order)->offset($offset)->limit($limit)->get()->toArray();
+        $rows = $this->perm->where($where)->orderBy($sort,$order)->offset($offset)->limit($limit)->get()->toArray();
         $total = $this->perm->count();
 
         return compact('rows', 'total');

@@ -56,7 +56,7 @@ Eof;
             'field' : '{$field}',
             'title' : '{$title}',
             'align' : 'center',
-            'sortable' : '{$sortable}'
+            'sortable' : {$sortable}
         },
 Eof;
     }

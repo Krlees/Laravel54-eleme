@@ -21,15 +21,15 @@ class PermissionService extends BaseService
     public function ajaxPermList($param)
     {
         $where = [];
-//        if( isset($param['search'])){
-//            $where['name|display_name'] = $param['search'];
-//        }
+        if( isset($param['search'])){
+            $where['name'] = $param['search'];
+        }
 
-        return $this->permission->ajaxPermList($param['offset'],$param['limit'],$param['sort'], $where);
+        return $this->permission->ajaxPermList($param['offset'],$param['limit'],$param['sort'],$param['order'], $where);
     }
 
     /**
-     * 获取权限
+     * 获取权限 <select>
      */
     public function getPermSelects()
     {

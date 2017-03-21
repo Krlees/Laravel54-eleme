@@ -135,7 +135,6 @@
             striped: true,
             cache: false,
             search: '{{$action['autoSearch']}}',
-            sortable: true,
             sortOrder: "asc",
             uniqueId: uniqueId, // 设置主键
             pageList: [10, 25, 50],
