@@ -11,11 +11,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Traits\Admin\FormTraits;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 
 class BaseController extends Controller
 {
+    use FormTraits;
 
     /**
      * 构造方法

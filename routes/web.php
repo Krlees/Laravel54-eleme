@@ -14,7 +14,9 @@
 Route::get('/', function () {
     return view('welcome');
 });
-
+Route::get('/admin', function () {
+    return redirect('admin/index');
+});
 Route::group(['namespace' => 'Admin','prefix' => 'admin'], function () {
     Route::get('/login', function() {
         return view('admin/login');
@@ -30,6 +32,14 @@ Route::group(['namespace' => 'Admin','prefix' => 'admin'], function () {
         Route::any('add', 'GoodsController@add');
         Route::any('edit', 'GoodsController@edit');
         Route::any('del', 'GoodsController@del');
+    });
+
+    // 权限管理
+    Route::group(['prefix' => 'permission'], function () {
+        Route::any('index', 'PermissionController@index');
+        Route::any('add', 'PermissionController@add');
+        Route::any('edit/{id}', 'PermissionController@edit');
+        Route::any('del', 'PermissionController@del');
     });
 
     Route::group(['prefix' => 'menu'], function () {

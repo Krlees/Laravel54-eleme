@@ -6,10 +6,12 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 
-class UserModel extends Authenticatable
+class User extends Authenticatable
 {
     use Notifiable;
     use EntrustUserTrait;
+
+    protected $table = "users";
 
     /**
      * The attributes that are mass assignable.

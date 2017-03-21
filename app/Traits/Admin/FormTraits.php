@@ -29,11 +29,28 @@ trait FormTraits
     {
         $isForm = $searchField ? true : false;
 
-        $action['add'] = isset($action['addUrl']) ? true : false;
-        $action['remove'] = isset($action['removeUrl']) ? true : false;
-        $action['autoSearch'] = isset($action['autoSearch']) ? true : false;
+        $action['add'] = $action['addUrl'] ?: false;
+        $action['remove'] = $action['removeUrl'] ?: false;
 
         return compact('searchUrl', 'searchField', 'isForm', 'action');
+    }
+
+    /**
+     * 返回组装好的action,配合<returnSearchFormat>方法使用
+     *
+     * @param string $addUrl
+     * @param string $editUrl
+     * @param string $removeUrl
+     * @param bool $autoSearch
+     * @return array
+     */
+    public function returnActionFormat($addUrl=null,$editUrl=null,$removeUrl=null,$autoSearch=true){
+        return [
+            'addUrl' => $addUrl,
+            'editUrl' => $editUrl,
+            'removeUrl' => $removeUrl,
+            'autoSearch' => $autoSearch
+        ];
     }
 
     /**

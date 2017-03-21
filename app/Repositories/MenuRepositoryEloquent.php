@@ -4,9 +4,6 @@ namespace App\Repositories;
 use App\Models\MenuModel;
 use Prettus\Repository\Eloquent\BaseRepository;
 
-/**
- * 菜单仓库
- */
 class MenuRepositoryEloquent extends BaseRepository
 {
     /**
@@ -42,6 +39,12 @@ class MenuRepositoryEloquent extends BaseRepository
         }
 
         return $menus;
+    }
+
+
+    public function getPremissionMenu()
+    {
+
     }
 
     /**
