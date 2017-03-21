@@ -23,11 +23,10 @@ class PermissionController extends BaseController
             $data = $this->cleanAjaxPageParam($request->all());
             $results = $this->perm->ajaxPermList($data);
 
-            return $this->responseAjaxTable($results['total'],$results['rows']);
-        }
-        else {
-            $action = $this->returnActionFormat(url('admin/permission/add'),url('admin/permission/edit'),url('admin/menu/del'));
-            $reponse = $this->returnSearchFormat(url('admin/permission/index'),null,$action);
+            return $this->responseAjaxTable($results['total'], $results['rows']);
+        } else {
+            $action = $this->returnActionFormat(url('admin/permission/add'), url('admin/permission/edit'), url('admin/menu/del'));
+            $reponse = $this->returnSearchFormat(url('admin/permission/index'), null, $action);
 
             return view('admin/permission/index', compact('reponse'));
         }
@@ -35,14 +34,17 @@ class PermissionController extends BaseController
 
     public function add(Request $request)
     {
-        if( $request->ajax() ){
+        if ($request->ajax()) {
 
-        }
-        else {
+        } else {
             $permSelects = $this->perm->getPermSelects();
-            $this->returnFieldFormat('select', '上级菜单', 'data[pid]', $this->returnSelectFormat($permSelects, 'name', 'id'));
-            $this->returnFieldFormat('text','路由名','name');
-            $reponse = $this->returnFormFormat('添加权限',$this->formField);
+
+            $this->returnFieldFormat('select', '权限', 'data[pid]', $this->returnSelectFormat($permSelects, 'display_name', 'id'), ['id' => 'topPerm']);
+            $this->returnFieldFormat('select', '', 'data[pid]', [], ['id' => 'subPerm']);
+
+
+            $this->returnFieldFormat('text', '路由名', 'name');
+            $reponse = $this->returnFormFormat('添加权限', $this->formField);
 
             return view('admin/permission/add', compact('reponse'));
 
@@ -57,6 +59,17 @@ class PermissionController extends BaseController
     public function del()
     {
 
+    }
+
+    /**
+     * 获取子权限
+     *
+     * @param $id
+     */
+    public function getSubPerm($id)
+    {
+        $data = $this->perm->getPermSelects($id);
+        return $data ? $this->responseData(0,"操作成功",$data) : $this->responseData(200,"操作失败");
     }
 
 }

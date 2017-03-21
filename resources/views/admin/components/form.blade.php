@@ -1,7 +1,6 @@
 @inject('formPresenter','App\Presenters\Admin\FormPresenter')
 @include('admin/common/css')
 <link rel="stylesheet" type="text/css" href="{{asset('admin/css/Validform_v5.3.2.css')}}">
-<link href="{{asset('admin/css/plugins/chosen/chosen.css')}}" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="{{asset('admin/css/plugins/webuploader/webuploader.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('admin/css/demo/webuploader-demo.css')}}">
 
@@ -46,8 +45,6 @@
 
 
 <!-- 全局js -->
-@include('admin/common/js')
-<script src="{{asset('admin/js/plugins/chosen/chosen.jquery.js')}}"></script>
 <script src="{{asset('admin/js/Validform_v5.3.2_min.js')}}"></script>
 <script src="{{asset('admin/js/plugins/jasny/jasny-bootstrap.min.js')}}"></script>
 <script>

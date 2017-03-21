@@ -31,9 +31,9 @@ class PermissionService extends BaseService
     /**
      * 获取权限 <select>
      */
-    public function getPermSelects()
+    public function getPermSelects($id=0)
     {
-        return $this->permission->getPermSelects();
+        return $this->permission->getPermSelects($id)->toArray();
     }
 
     /**
@@ -56,6 +56,28 @@ class PermissionService extends BaseService
         $data['pid'] = 0;
         $b = $this->premission->create($data);
         return $b ?: false;
+    }
+
+    /**
+     * 递归数据
+     *
+     * @param $menus
+     * @param int $pid
+     * @return array|string
+     */
+    private function sortArr($menus,$pid=0)
+    {
+        $arr = [];
+        if (empty($menus)) {
+            return '';
+        }
+        foreach ($menus as $key => $v) {
+            if ($v['pid'] == $pid) {
+                $arr[$key] = $v;
+                $arr[$key]['child'] = self::sortArr($menus,$v['id']);
+            }
+        }
+        return $arr;
     }
 
 

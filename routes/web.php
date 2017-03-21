@@ -40,6 +40,7 @@ Route::group(['namespace' => 'Admin','prefix' => 'admin'], function () {
         Route::any('add', 'PermissionController@add');
         Route::any('edit/{id}', 'PermissionController@edit');
         Route::any('del', 'PermissionController@del');
+        Route::any('get-sub-perm/{id}', 'PermissionController@getSubPerm');
     });
 
     Route::group(['prefix' => 'menu'], function () {

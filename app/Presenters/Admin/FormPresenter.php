@@ -1,6 +1,7 @@
 <?php
 namespace App\Presenters\Admin;
 
+use Collective\Html\FormBuilder;
 use Form;
 
 class FormPresenter

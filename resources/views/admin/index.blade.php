@@ -63,7 +63,7 @@
                     <li>
                         <a href="#">
                             <i class="{{$menu->icon}}"></i>
-                            <span class="nav-label">{{$menu->display_name}}</span>
+                            <span class="nav-label">{{$menu->name}}</span>
                             <span class="fa arrow"></span>
                         </a>
                         @foreach ($menu->sub as $subMenu)

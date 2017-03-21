@@ -38,14 +38,9 @@ class PermissionRepositoryEloquent extends BaseRepository
         return compact('rows', 'total');
     }
 
-    public function getPermSelects()
+    public function getPermSelects($id)
     {
-        $perms = $this->perm->where(['pid' => 0])->get(['display_name','id']);
-        foreach ($perms as $k => $v) {
-            $v->sub = $this->perm->where(['pid' => $v['id']])->get();
-        }
-
-        return $perms;
+        return $this->perm->where(['pid'=>$id])->get(['name','pid','id','display_name']);
     }
 
     /**
@@ -57,6 +52,9 @@ class PermissionRepositoryEloquent extends BaseRepository
     public function getPerm($user)
     {
         $roles = $this->role->find($user->id);
+        if( !$roles){
+            return [];
+        }
         $perms = $roles->perms()->get(['name'])->toArray();
 
         return $perms;

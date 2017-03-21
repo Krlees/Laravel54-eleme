@@ -79,7 +79,7 @@ trait FormTraits
      * @param $checkid  为0则不帅选
      * @return array
      */
-    public function returnSelectFormat($data, $name, $value, $checkid = 0)
+    public function returnSelectFormat($data=[], $name, $value, $checkid = 0)
     {
         $return = [];
         foreach ($data as $k => $v) {
