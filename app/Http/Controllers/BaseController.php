@@ -77,7 +77,22 @@ class BaseController extends Controller
      */
     public function responseAjaxTable($total, $rows)
     {
-        return compact('total', 'rows');
+        return json_encode(compact('total', 'rows'));
+    }
+
+    /**
+     * 过滤并初始化好参数,只使用于bootstrap-table的表格组件
+     *
+     * @param $param
+     */
+    public function cleanAjaxPageParam($param)
+    {
+        $param['offset'] = isset($param['offset']) ? $param['offset'] : 0;
+        $param['limit'] = isset($param['limit']) ? $param['limit'] : 10;
+        $param['sort'] = isset($param['sort']) ? $param['sort'] : false;
+        $param['order'] = isset($param['order']) ? $param['order'] : 'asc';
+
+        return $param;
     }
 
 

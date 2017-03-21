@@ -5,5 +5,5 @@ use Zizaco\Entrust\EntrustPermission;
 
 class Permission extends EntrustPermission
 {
-    protected $table = "premissions";
+    protected $table = "permissions";
 }

@@ -28,6 +28,26 @@ class PermissionRepositoryEloquent extends BaseRepository
         return Role::class;
     }
 
+    public function ajaxPermList($offset, $limit, $sort=false, $order, $where = [])
+    {
+        $sort = $sort ?: $this->perm->getKeyName();
+
+        $rows = $this->where($where)->orderBy($sort,$order)->offset($offset)->limit($limit)->get()->toArray();
+        $total = $this->perm->count();
+
+        return compact('rows', 'total');
+    }
+
+    public function getPermSelects()
+    {
+        $perms = $this->perm->where(['pid' => 0])->get(['display_name','id']);
+        foreach ($perms as $k => $v) {
+            $v->sub = $this->perm->where(['pid' => $v['id']])->get();
+        }
+
+        return $perms;
+    }
+
     /**
      * 返回用户的权限
      *
@@ -41,7 +61,6 @@ class PermissionRepositoryEloquent extends BaseRepository
 
         return $perms;
     }
-
 
 
 }

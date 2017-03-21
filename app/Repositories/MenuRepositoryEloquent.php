@@ -58,7 +58,7 @@ class MenuRepositoryEloquent extends BaseRepository
     public function ajaxMenuList($start, $limit, $where = [])
     {
         $rows = $this->model->where($where)->offset(0)->limit($limit)->get()->toArray();
-        $total = $this->model->count();
+        $total = $this->model->where($where)->count();
 
         return compact('rows', 'total');
     }
