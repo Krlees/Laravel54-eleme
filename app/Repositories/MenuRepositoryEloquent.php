@@ -42,22 +42,31 @@ class MenuRepositoryEloquent extends BaseRepository
     }
 
 
-    public function getPremissionMenu()
+    /**
+     * 获取子菜单
+     *
+     * @param $id
+     * @return mixed
+     */
+    public function getMenuSelects($id)
     {
-
+        return $this->model->where(['pid'=>$id])->get();
     }
 
     /**
      * ajax获取菜单
      *
-     * @param $start
+     * @param $offset
      * @param $limit
+     * @param bool $sort
+     * @param $order
      * @param array $where
      * @return array
      */
-    public function ajaxMenuList($start, $limit, $where = [])
+    public function ajaxMenuList($offset, $limit, $sort=false, $order, $where = [])
     {
-        $rows = $this->model->where($where)->offset(0)->limit($limit)->get()->toArray();
+        $sort = $sort ?: $this->model->getKeyName();
+        $rows = $this->model->where($where)->orderBy($sort,$order)->offset(0)->limit($limit)->get()->toArray();
         $total = $this->model->where($where)->count();
 
         return compact('rows', 'total');

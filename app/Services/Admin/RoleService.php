@@ -1,16 +1,15 @@
 <?php
 namespace App\Services\Admin;
-use App\Models\Permission;
-use App\Repositories\PermissionRepositoryEloquent;
+use App\Models\Roleission;
 use App\Services\Admin\BaseService;
 
-class PermissionService extends BaseService
+class RoleService extends BaseService
 {
-	private $permission;
+	private $role;
 
-	public function __construct(PermissionRepositoryEloquent $permission)
+	public function __construct( $role)
 	{
-		$this->permission = $permission;
+		$this->role = $role;
 	}
 
     /**
@@ -19,7 +18,7 @@ class PermissionService extends BaseService
      * @param $param
      * @return array
      */
-    public function ajaxPermList($param)
+    public function ajaxRoleList($param)
     {
         $where = [['pid',0]];
         if( isset($param['search'])){
@@ -30,25 +29,17 @@ class PermissionService extends BaseService
             ];
         }
 
-        $results =  $this->permission->ajaxPermList($param['offset'],$param['limit'],$param['sort'],$param['order'], $where);
-
-//        // 整理权限子父关系
-//        foreach ($results['rows'] as $k=>$v){
-//            if( $v['child'] ){
-//                $count = count($v['child']);
-//                array_splice($results['rows'],$k+$count,0,$v['child']);
-//            }
-//        }
-
+        $results =  $this->Roleission->ajaxRoleList($param['offset'],$param['limit'],$param['sort'],$param['order'], $where);
+        
         return $results;
     }
 
     /**
      * 获取权限 <select>
      */
-    public function getPermSelects($id=0)
+    public function getRoleSelects($id=0)
     {
-        return $this->permission->getPermSelects($id)->toArray();
+        return $this->Roleission->getRoleSelects($id)->toArray();
     }
 
     /**
@@ -58,8 +49,8 @@ class PermissionService extends BaseService
      */
     public function findById($id)
     {
-        $permModel = $this->permission->model();
-        $data = $permModel::find($id);
+        $RoleModel = $this->Roleission->model();
+        $data = $RoleModel::find($id);
 
         return $data ?: abort(404); // TODO替换正查找不到数据错误页面
     }
@@ -69,8 +60,8 @@ class PermissionService extends BaseService
      */
     public function createData($data)
     {
-        $permModel = $this->permission->model();
-        $b = $permModel::create($data);
+        $RoleModel = $this->Roleission->model();
+        $b = $RoleModel::create($data);
         return $b ?: false;
     }
 
@@ -82,8 +73,8 @@ class PermissionService extends BaseService
      */
     public function updateData($id, $data)
     {
-        $permModel = $this->permission->model();
-        $b = $permModel::where('id',$id)->update($data);
+        $RoleModel = $this->Roleission->model();
+        $b = $RoleModel::where('id',$id)->update($data);
 
         return $b ?: false;
     }

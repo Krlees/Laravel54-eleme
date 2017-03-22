@@ -20,12 +20,23 @@ class PermissionRepositoryEloquent extends BaseRepository
         return Permission::class;
     }
 
+    /**
+     * ajax获取权限数据
+     *
+     * @param $offset
+     * @param $limit
+     * @param bool $sort
+     * @param $order
+     * @param array $where
+     * @return array
+     */
     public function ajaxPermList($offset, $limit, $sort=false, $order, $where = [])
     {
         $sort = $sort ?: $this->perm->getKeyName();
 
         $rows = $this->perm->where($where)->orderBy($sort,$order)->offset($offset)->limit($limit)->get()->toArray();
-        $total = $this->perm->count();
+
+        $total = $this->perm->where($where)->count();
 
         return compact('rows', 'total');
     }

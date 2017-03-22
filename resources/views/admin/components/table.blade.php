@@ -118,6 +118,8 @@
         return paramObj;
     }
 
+
+
     /* 初始化表格 */
     function initTable() {
         $table.bootstrapTable({
@@ -130,7 +132,7 @@
             showToggle: true,
             showExport: true,
             detailView: true,
-            detailFormatter: "detailFormatter",
+//            detailFormatter: "detailFormatter",
             cellStyle: true,
             striped: true,
             cache: false,
@@ -138,10 +140,12 @@
             sortOrder: "asc",
             uniqueId: uniqueId, // 设置主键
             pageList: [10, 25, 50],
-            pageSize:3,
             sidePagination: "server",
             responseHandler: "responseHandler",
             columns: colums,
+            onExpandRow: function (index, row, $detail) {
+                InitSubTable(index, row, $detail);
+            },
             queryParams: function (params) {   //设置查询参数
                 var paramForm = getParamSearch();
                 return $.extend({}, params, paramForm); // 合并参数
@@ -250,8 +254,6 @@
 //            alert('You click like action, row: ' + JSON.stringify(row));
         },
         'click .remove': function (e, value, row, index) {
-            console.log(row);
-            alert(1)
             $.getJSON("{{$action['removeUrl']}}",{ids:row[uniqueId]},function (result) {
                 if(result.code == '0' ){
                     $table.bootstrapTable('removeByUniqueId', row[uniqueId]);   // 根据uniqueId删除指定行
@@ -277,6 +279,7 @@
     function getHeight() {
         return '';
     }
+
 
 
 </script>

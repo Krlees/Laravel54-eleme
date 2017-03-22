@@ -25,7 +25,7 @@ class PermissionController extends BaseController
 
             return $this->responseAjaxTable($results['total'], $results['rows']);
         } else {
-            $action = $this->returnActionFormat(url('admin/permission/add'), url('admin/permission/edit'), url('admin/menu/del'));
+            $action = $this->returnActionFormat(url('admin/permission/add'), url('admin/permission/edit'), url('admin/permission/del'));
             $reponse = $this->returnSearchFormat(url('admin/permission/index'), null, $action);
 
             return view('admin/permission/index', compact('reponse'));
@@ -55,8 +55,31 @@ class PermissionController extends BaseController
         }
     }
 
-    public function edit()
+    public function edit(Request $request, $id)
     {
+
+        if ($request->ajax()) {
+            $data = $request->input('data');
+            $results = $this->perm->updateData($id,$data);
+
+            return $results ? $this->responseData(0,"操作成功",$results) : $this->responseData(200,"操作失败");
+
+        } else {
+
+            $permSelects = $this->perm->getPermSelects();
+
+            $info = $this->perm->findById($id);
+
+            $this->returnFieldFormat('select', '权限', 'data[pid]', $this->returnSelectFormat($permSelects, 'display_name', 'id',$info->pid), ['id' => 'topPerm']);
+            $this->returnFieldFormat('select', '', 'data[pid]', [], ['id' => 'subPerm']);
+            $this->returnFieldFormat('text', '显示名称', 'data[display_name]',$info->display_name);
+            $this->returnFieldFormat('text', '路由名', 'data[name]',$info->name);
+            $this->returnFieldFormat('textarea', '描述', 'data[description]',$info->description);
+
+            $reponse = $this->returnFormFormat('编辑权限', $this->formField);
+            return view('admin/permission/add', compact('reponse'));
+
+        }
 
     }
 

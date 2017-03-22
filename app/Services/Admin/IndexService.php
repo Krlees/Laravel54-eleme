@@ -23,12 +23,16 @@ class IndexService extends BaseService
      */
     public function getPermMenu($user)
     {
-        $permArr = $this->perm->getPerm($user);
-        $inArr = array_values(array_column($permArr, 'name'));
 
         $menuData = $this->menu->getAllMenu();
-        foreach ($menuData as $k=>$menu){
-            if( !in_array($menu->premission_name,$inArr)){
+        if ($user->is_super) {
+            return $menuData;
+        }
+
+        $permArr = $this->perm->getPerm($user);
+        $inArr = array_values(array_column($permArr, 'name'));
+        foreach ($menuData as $k => $menu) {
+            if (!in_array($menu->premission_name, $inArr)) {
                 unset($menuData[$k]);
             }
         }

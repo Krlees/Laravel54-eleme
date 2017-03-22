@@ -48,6 +48,7 @@ Route::group(['namespace' => 'Admin','prefix' => 'admin','middleware'=>['auth','
         Route::any('add', 'MenuController@add');
         Route::any('edit/{id}', 'MenuController@edit');
         Route::any('del', 'MenuController@del');
+        Route::any('get-sub-menu/{id}', 'MenuController@getSubMenu');
     });
 
 });
