@@ -1,16 +1,17 @@
 <?php
 namespace App\Services\Admin;
-use App\Repositories\RoleRepositoryEloquent;
+
+use App\Repositories\UserRepositoryEloquent;
 use App\Services\Admin\BaseService;
 
-class RoleService extends BaseService
+class UserService extends BaseService
 {
-	private $role;
+    private $user;
 
-	public function __construct(RoleRepositoryEloquent $role)
-	{
-		$this->role = $role;
-	}
+    public function __construct(UserRepositoryEloquent $user)
+    {
+        $this->user = $user;
+    }
 
     /**
      * AJAX 获取权限数据
@@ -18,27 +19,26 @@ class RoleService extends BaseService
      * @param $param
      * @return array
      */
-    public function ajaxRoleList($param)
+    public function ajaxUserList($param)
     {
         $where = [];
-        if( isset($param['search'])){
+        if (isset($param['search'])) {
             $where = [
-                ['name','like',"%{$param['search']}%",'and'],
-                ['display_name','like',"%{$param['search']}%",'or']
+                ['name', 'like', "%{$param['search']}%"],
             ];
         }
 
-        $results =  $this->role->ajaxRoleList($param['offset'],$param['limit'],$param['sort'],$param['order'], $where);
-        
+        $results = $this->user->ajaxUserList($param['offset'], $param['limit'], $param['sort'], $param['order'], $where);
+
         return $results;
     }
 
     /**
      * 获取权限 <select>
      */
-    public function getRoleSelects($id=0)
+    public function getUserSelects($id = 0)
     {
-        return $this->role->getRoleSelects($id)->toArray();
+        return $this->user->getUserSelects($id)->toArray();
     }
 
     /**
@@ -48,7 +48,7 @@ class RoleService extends BaseService
      */
     public function findById($id)
     {
-        $data = $this->role->find($id);
+        $data = $this->user->find($id);
 
         return $data ?: abort(404); // TODO替换正查找不到数据错误页面
     }
@@ -58,7 +58,8 @@ class RoleService extends BaseService
      */
     public function createData($data)
     {
-        $b = $this->role->create($data);
+        $data['password'] = bcrypt($data['password']);
+        $b = $this->user->create($data);
         return $b ?: false;
     }
 
@@ -70,8 +71,14 @@ class RoleService extends BaseService
      */
     public function updateData($id, $data)
     {
-        $RoleModel = $this->role->model();
-        $b = $RoleModel::where('id',$id)->update($data);
+        if( $data['password'] ) {
+            $data['password'] = bcrypt($data['password']);
+        }
+        else {
+            unset($data['password']);
+        }
+
+        $b = $this->user->update($data, $id);
 
         return $b ?: false;
     }
@@ -83,7 +90,7 @@ class RoleService extends BaseService
      * @param int $pid
      * @return array|string
      */
-    private function sortArr($menus,$pid=0)
+    private function sortArr($menus, $pid = 0)
     {
         $arr = [];
         if (empty($menus)) {
@@ -93,13 +100,11 @@ class RoleService extends BaseService
         foreach ($menus as $key => $v) {
             if ($v['pid'] == $pid) {
                 $arr[$key] = $v;
-                $arr[$key]['child'] = self::sortArr($menus,$v['id']);
+                $arr[$key]['child'] = self::sortArr($menus, $v['id']);
             }
         }
         return $arr;
     }
-
-
 
 
 }

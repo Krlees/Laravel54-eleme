@@ -9,4 +9,8 @@ class Role extends EntrustRole
 
     protected $foreignKey = 'role_id';
 
+    protected $fillable = [
+        'name','display_name','description'
+    ];
+
 }

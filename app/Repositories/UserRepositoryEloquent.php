@@ -1,16 +1,16 @@
 <?php
 namespace App\Repositories;
 
-use App\Models\Role;
+use App\Models\User;
 use Prettus\Repository\Eloquent\BaseRepository;
 
-class RoleRepositoryEloquent extends BaseRepository
+class UserRepositoryEloquent extends BaseRepository
 {
 
     public function model()
     {
         // TODO: Implement model() method.
-        return Role::class;
+        return User::class;
     }
 
     /**
@@ -23,7 +23,7 @@ class RoleRepositoryEloquent extends BaseRepository
      * @param array $where
      * @return array
      */
-    public function ajaxRoleList($offset, $limit, $sort=false, $order, $where = [])
+    public function ajaxUserList($offset, $limit, $sort=false, $order, $where = [])
     {
         $sort = $sort ?: $this->model->getKeyName();
 
@@ -47,7 +47,7 @@ class RoleRepositoryEloquent extends BaseRepository
      */
     public function getrole($user)
     {
-        $roles = Role::find($user->id);
+        $roles = User::find($user->id);
         if( !$roles){
             return [];
         }

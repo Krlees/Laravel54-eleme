@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\api;
 
-use App\Repositories\RatingRepositoryEloquent;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -10,7 +9,7 @@ class RatingController extends Controller
 {
     private $rating;
 
-    public function __construct(RatingRepositoryEloquent $rating)
+    public function __construct( $rating)
     {
         $this->rating = $rating;
     }

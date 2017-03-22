@@ -12,7 +12,6 @@
                 {!! $tablePresenter->jsColums('ID','id','true') !!}
                 {!! $tablePresenter->jsColums('名称','name') !!}
                 {!! $tablePresenter->jsColums('路由','url') !!}
-                {!! $tablePresenter->jsColums('权限名','permission_name') !!}
                 {
                     'field': 'icon',
                     'title': 'icon图标',

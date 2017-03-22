@@ -91,7 +91,7 @@
                     window.location.href=targetUrl;
                 }
                 else{
-                    window.location.reload();
+                    window.location.reload(true);
                 }
             }
             else {

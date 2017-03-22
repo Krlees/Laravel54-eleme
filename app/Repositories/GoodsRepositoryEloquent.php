@@ -6,21 +6,8 @@ use App\Models\GoodsModel;
 use App\Models\RatingModel;
 use Prettus\Repository\Eloquent\BaseRepository;
 
-/**
- * 菜单仓库
- */
 class GoodsRepositoryEloquent extends BaseRepository
 {
-    private $goods;
-    private $goods_class;
-    private $rating;
-
-    public function __construct(GoodsModel $goods, GoodsClassModel $goods_class, RatingModel $rating)
-    {
-        $this->goods = $goods;
-        $this->goods_class = $goods_class;
-        $this->rating = $rating;
-    }
 
     /**
      * Specify Model class name
@@ -88,6 +75,14 @@ class GoodsRepositoryEloquent extends BaseRepository
         $total = $this->goods->count();
 
         return compact('rows','total');
+    }
+
+    /**
+     * 返回前台API需要的数据
+     */
+    public function apiGoods()
+    {
+        return $this->model->get();
     }
 
 }

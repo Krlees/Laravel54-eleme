@@ -73,5 +73,12 @@ class MenuService extends BaseService
         return $b ?: false;
     }
 
+    public function updateData($data, $id){
+
+        $b = $this->menu->update($data,$id);
+
+        return $b ?: false;
+    }
+
 
 }

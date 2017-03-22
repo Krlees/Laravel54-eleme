@@ -55,7 +55,6 @@ class MenuController extends BaseController
             $this->returnFieldFormat('select', '上级菜单', 'data[pid]', $this->returnSelectFormat($menu_data, 'name', 'id'));
             $this->returnFieldFormat('text', '名称', 'data[name]');
             $this->returnFieldFormat('text', 'Url路由', 'data[url]');
-            $this->returnFieldFormat('text', '权限名', 'data[permission_name]');
             $this->returnFieldFormat('text', 'Icon', 'data[icon]');
             $this->returnFieldFormat('text', '排序', 'data[sort]');
 
@@ -68,9 +67,8 @@ class MenuController extends BaseController
     {
         if ($request->ajax()) {
             $data = $request->input('data');
-            $menuModel = $this->menu->model();
 
-            $affected = $menuModel::where(['id' => $id])->update($data);
+            $affected = $this->menu->updateData($data, $id);
             return $affected ? $this->responseData(0) : $this->responseData(400);
 
         } else {
@@ -83,9 +81,8 @@ class MenuController extends BaseController
             $this->returnFieldFormat('select', '上级菜单', 'data[pid]', $selectData);
             $this->returnFieldFormat('text', '名称', 'data[name]', $data['name']);
             $this->returnFieldFormat('text', 'Url路由', 'data[url]', $data['url']);
-            $this->returnFieldFormat('text', '权限名', 'data[permission_name]', $data['permission_name']);
             $this->returnFieldFormat('text', 'Icon', 'data[icon]', $data['icon']);
-            $this->returnFieldFormat('text', '排序', 'data[sort]', $data['icon']);
+            $this->returnFieldFormat('text', '排序', 'data[sort]', $data['sort']);
 
             $reponse = $this->returnFormFormat('编辑菜单', $this->formField, url('admin/menu/edit/'.$id));
             return view('admin/menu/edit', compact('reponse'));

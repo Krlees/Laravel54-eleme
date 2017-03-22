@@ -5,9 +5,6 @@ use App\Models\MemberModel;
 use App\Models\RatingModel;
 use Prettus\Repository\Eloquent\BaseRepository;
 
-/**
- * 菜单仓库
- */
 class RatingRepositoryEloquent extends BaseRepository
 {
     /**
@@ -21,7 +18,7 @@ class RatingRepositoryEloquent extends BaseRepository
     }
 
     /**
-     * 获取评论数据
+     * 前端获取评论数据
      *
      * @param $id
      * @return mixed

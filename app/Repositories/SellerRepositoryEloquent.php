@@ -5,11 +5,9 @@ use App\Models\SellerCountModel;
 use App\Models\SellerModel;
 use Prettus\Repository\Eloquent\BaseRepository;
 
-/**
- * 菜单仓库
- */
 class SellerRepositoryEloquent extends BaseRepository
 {
+
     /**
      * Specify Model class name
      *
@@ -21,22 +19,14 @@ class SellerRepositoryEloquent extends BaseRepository
     }
 
     /**
-     * 查询商家信息
+     * 获取商家的统计数
      *
-     * @param $id  商家主键ID
-     * @return array
+     * @param $id
+     * @return mixed
      */
-    public function getSellerInfo($id)
+    public function findSellerCount($id)
     {
-        $seller_info = $this->model->find($id)->toArray();
-        if( empty($seller_info) ){
-            return [];
-        }
-
-        $seller_count = SellerCountModel::where(['seller_id'=>$id])->first()->toArray();
-
-        return array_merge($seller_count,$seller_info);
+        return SellerCountModel::find($id);
     }
-
 
 }

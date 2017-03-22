@@ -43,6 +43,20 @@ Route::group(['namespace' => 'Admin','prefix' => 'admin','middleware'=>['auth','
         Route::any('get-sub-perm/{id}', 'PermissionController@getSubPerm');
     });
 
+    Route::group(['prefix' => 'role'], function () {
+        Route::any('index', 'RoleController@index');
+        Route::any('add', 'RoleController@add');
+        Route::any('edit/{id}', 'RoleController@edit');
+        Route::any('del', 'RoleController@del');
+    });
+
+    Route::group(['prefix' => 'user'], function () {
+        Route::any('index', 'UsersController@index');
+        Route::any('add', 'UsersController@add');
+        Route::any('edit/{id}', 'UsersController@edit');
+        Route::any('del', 'UsersController@del');
+    });
+
     Route::group(['prefix' => 'menu'], function () {
         Route::any('index', 'MenuController@index');
         Route::any('add', 'MenuController@add');
