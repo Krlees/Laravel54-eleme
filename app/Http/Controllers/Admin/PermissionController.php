@@ -35,15 +35,19 @@ class PermissionController extends BaseController
     public function add(Request $request)
     {
         if ($request->ajax()) {
+            $data = $request->input('data');
+            $results = $this->perm->createData($data);
+
+            return $results ? $this->responseData(0,"操作成功",$results) : $this->responseData(200,"操作失败");
 
         } else {
             $permSelects = $this->perm->getPermSelects();
 
             $this->returnFieldFormat('select', '权限', 'data[pid]', $this->returnSelectFormat($permSelects, 'display_name', 'id'), ['id' => 'topPerm']);
             $this->returnFieldFormat('select', '', 'data[pid]', [], ['id' => 'subPerm']);
-
-
-            $this->returnFieldFormat('text', '路由名', 'name');
+            $this->returnFieldFormat('text', '显示名称', 'data[display_name]');
+            $this->returnFieldFormat('text', '路由名', 'data[name]');
+            $this->returnFieldFormat('textarea', '描述', 'data[description]');
             $reponse = $this->returnFormFormat('添加权限', $this->formField);
 
             return view('admin/permission/add', compact('reponse'));

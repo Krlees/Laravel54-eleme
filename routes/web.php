@@ -17,7 +17,7 @@ Route::get('/', function () {
 Route::get('/admin', function () {
     return redirect('admin/index');
 });
-Route::group(['namespace' => 'Admin','prefix' => 'admin'], function () {
+Route::group(['namespace' => 'Admin','prefix' => 'admin','middleware'=>['auth','auth.admin']], function () {
     Route::get('/login', function() {
         return view('admin/login');
     });

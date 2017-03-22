@@ -19,7 +19,8 @@ class AdminAuth
     public function handle($request, Closure $next)
     {
 
-//        if (!Auth::user()->may(Route::getCurrentRoute()->uri())) {
+//        $str = str_replace("/", ".", Route::getCurrentRoute()->uri());
+//        if (!Auth::user()->may($str)) {
 //            if ($request->ajax() && ($request->getMethod() != 'GET')) {
 //                return response()->json([
 //                    'code' => 403,

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
@@ -9,7 +10,16 @@ use Zizaco\Entrust\Traits\EntrustUserTrait;
 class User extends Authenticatable
 {
     use Notifiable;
-    use EntrustUserTrait;
+//    use EntrustUserTrait;
+
+    use EntrustUserTrait {
+        restore as private restoreEntrust;
+        EntrustUserTrait::can as may;
+    }
+
+    use SoftDeletes {
+        restore as private restoreSoftDelete;
+    }
 
     protected $table = "users";
 
@@ -30,6 +40,14 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    protected $dates = ['deleted_at'];
+
+    public function restore()
+    {
+        $this->restoreEntrust();
+        $this->restoreSoftDelete();
+    }
 
 //    public function roles()
 //    {

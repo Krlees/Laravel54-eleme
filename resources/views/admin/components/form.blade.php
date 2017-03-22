@@ -87,9 +87,15 @@
         },
         callback: function (data) {
             if (data.code == '0') {
-                layer.msg('操作成功');
-                if(targetUrl)
-                    setTimeout("window.location.href='"+targetUrl+"'",1000);
+                if(targetUrl) {
+                    window.location.href=targetUrl;
+                }
+                else{
+                    window.location.reload();
+                }
+            }
+            else {
+                layer.msg('操作失败');
             }
             $('#Validform_msg').hide();
 

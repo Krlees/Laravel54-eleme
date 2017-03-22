@@ -7,12 +7,10 @@ use Prettus\Repository\Eloquent\BaseRepository;
 
 class PermissionRepositoryEloquent extends BaseRepository
 {
-    private $role;
     private $perm;
 
-    public function __construct(Role $role, Permission $perm)
+    public function __construct(Permission $perm)
     {
-        $this->role = $role;
         $this->perm = $perm;
     }
 
@@ -20,12 +18,6 @@ class PermissionRepositoryEloquent extends BaseRepository
     {
         // TODO: Implement model() method.
         return Permission::class;
-    }
-
-    public function roleModel()
-    {
-        // TODO: Implement model() method.
-        return Role::class;
     }
 
     public function ajaxPermList($offset, $limit, $sort=false, $order, $where = [])
@@ -51,7 +43,7 @@ class PermissionRepositoryEloquent extends BaseRepository
      */
     public function getPerm($user)
     {
-        $roles = $this->role->find($user->id);
+        $roles = Role::find($user->id);
         if( !$roles){
             return [];
         }

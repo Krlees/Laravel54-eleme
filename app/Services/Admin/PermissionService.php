@@ -13,11 +13,6 @@ class PermissionService extends BaseService
 		$this->permission = $permission;
 	}
 
-	public function model()
-    {
-        return Permission::class;
-    }
-
     public function ajaxPermList($param)
     {
         $where = [];
@@ -53,8 +48,8 @@ class PermissionService extends BaseService
      */
     public function createData($data)
     {
-        $data['pid'] = 0;
-        $b = $this->premission->create($data);
+        $permModel = $this->permission->model();
+        $b = $permModel::create($data);
         return $b ?: false;
     }
 
