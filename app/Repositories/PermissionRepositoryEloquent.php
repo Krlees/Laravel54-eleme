@@ -7,12 +7,6 @@ use Prettus\Repository\Eloquent\BaseRepository;
 
 class PermissionRepositoryEloquent extends BaseRepository
 {
-    private $perm;
-
-    public function __construct(Permission $perm)
-    {
-        $this->perm = $perm;
-    }
 
     public function model()
     {
@@ -32,18 +26,18 @@ class PermissionRepositoryEloquent extends BaseRepository
      */
     public function ajaxPermList($offset, $limit, $sort=false, $order, $where = [])
     {
-        $sort = $sort ?: $this->perm->getKeyName();
+        $sort = $sort ?: $this->model->getKeyName();
 
-        $rows = $this->perm->where($where)->orderBy($sort,$order)->offset($offset)->limit($limit)->get()->toArray();
+        $rows = $this->model->where($where)->orderBy($sort,$order)->offset($offset)->limit($limit)->get()->toArray();
 
-        $total = $this->perm->where($where)->count();
+        $total = $this->model->where($where)->count();
 
         return compact('rows', 'total');
     }
 
     public function getPermSelects($id)
     {
-        return $this->perm->where(['pid'=>$id])->get(['name','pid','id','display_name']);
+        return $this->model->where(['pid'=>$id])->get(['name','pid','id','display_name']);
     }
 
     /**
@@ -63,6 +57,23 @@ class PermissionRepositoryEloquent extends BaseRepository
         return $perms;
     }
 
+    /**
+     * 获取所有的权限并按照功能分组
+     * array_set函数介绍
+     *      根据key按相同的字符串在不断分解成数组,非常强大的函数
+     *
+     * @return array
+     */
+    public function getGroupPermission()
+    {
+        $permissions = $this->model->all();
+        $array = [];
+        foreach ($permissions as $v) {
+            array_set($array, $v->name, ['id' => $v->id,'name' => $v->display_name]);
+        }
+
+       return $array;
+    }
 
 }
 

@@ -1,8 +1,10 @@
 <?php
 namespace App\Repositories;
 
+use App\Models\Permission;
 use App\Models\Role;
 use Prettus\Repository\Eloquent\BaseRepository;
+use DB;
 
 class RoleRepositoryEloquent extends BaseRepository
 {
@@ -39,22 +41,7 @@ class RoleRepositoryEloquent extends BaseRepository
         return $this->model->where(['pid'=>$id])->get(['name','pid','id','display_name']);
     }
 
-    /**
-     * 返回用户的权限
-     *
-     * @param $user
-     * @return Array
-     */
-    public function getrole($user)
-    {
-        $roles = Role::find($user->id);
-        if( !$roles){
-            return [];
-        }
-        $roles = $roles->roles()->get(['name'])->toArray();
 
-        return $roles;
-    }
 
 
 }

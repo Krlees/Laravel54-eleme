@@ -27,5 +27,32 @@ if (!function_exists('isImage')) {
     }
 }
 
+/**
+ * 在数组中插入指定的key和值 <递归>
+ * @param $array
+ * @param $filed
+ * @param $value
+ *
+ * @return array
+ */
+function arrayAddField($array,$key,$value=true)
+{
+
+    $arr = [];
+    if (empty($array)) {
+        return [];
+    }
+
+    foreach ($array as $k=>$v){
+        $array[$k][$key] = $value;
+        if(is_array($v)){
+            arrayAddField($v,$key,$value);
+        }
+    }
+
+    return $array;
+
+}
+
 
 

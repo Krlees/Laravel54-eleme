@@ -1,16 +1,21 @@
 <?php
 namespace App\Services\Admin;
+
+use App\Models\Role;
+use App\Repositories\PermissionRepositoryEloquent;
 use App\Repositories\RoleRepositoryEloquent;
 use App\Services\Admin\BaseService;
 
 class RoleService extends BaseService
 {
-	private $role;
+    private $role;
+    private $perm;
 
-	public function __construct(RoleRepositoryEloquent $role)
-	{
-		$this->role = $role;
-	}
+    public function __construct(RoleRepositoryEloquent $role, PermissionRepositoryEloquent $perm)
+    {
+        $this->role = $role;
+        $this->perm = $perm;
+    }
 
     /**
      * AJAX 获取权限数据
@@ -21,24 +26,38 @@ class RoleService extends BaseService
     public function ajaxRoleList($param)
     {
         $where = [];
-        if( isset($param['search'])){
+        if (isset($param['search'])) {
             $where = [
-                ['name','like',"%{$param['search']}%",'and'],
-                ['display_name','like',"%{$param['search']}%",'or']
+                ['name', 'like', "%{$param['search']}%", 'and'],
+                ['display_name', 'like', "%{$param['search']}%", 'or']
             ];
         }
 
-        $results =  $this->role->ajaxRoleList($param['offset'],$param['limit'],$param['sort'],$param['order'], $where);
-        
+        $results = $this->role->ajaxRoleList($param['offset'], $param['limit'], $param['sort'], $param['order'], $where);
+
         return $results;
     }
 
     /**
-     * 获取权限 <select>
+     * 返回权限数据
+     *
+     * @return array|string
      */
-    public function getRoleSelects($id=0)
+    public function getGroupPermission($roleId = 0)
     {
-        return $this->role->getRoleSelects($id)->toArray();
+        $results = $this->perm->getGroupPermission();
+
+        return $results;
+    }
+
+    /**
+     * 查询角色的权限
+     * @param $id
+     * @return mixed
+     */
+    public function findByPerms($role_id)
+    {
+        return $this->role->find($role_id)->perms()->get()->toArray();
     }
 
     /**
@@ -71,35 +90,41 @@ class RoleService extends BaseService
     public function updateData($id, $data)
     {
         $RoleModel = $this->role->model();
-        $b = $RoleModel::where('id',$id)->update($data);
+        $b = $RoleModel::where('id', $id)->update($data);
 
         return $b ?: false;
     }
 
     /**
-     * 递归数据
+     * 所有权限转化为子父权限,并附上checked标识 <递归处理>
      *
-     * @param $menus
+     * @param $arr
      * @param int $pid
-     * @return array|string
+     * @param array    已有的权限
      */
-    private function sortArr($menus,$pid=0)
+    private function roleChildArr($arr, $pid = 0, $activeRoles = null)
     {
-        $arr = [];
-        if (empty($menus)) {
-            return '';
+        $results = [];
+        if (empty($arr)) {
+            return [];
         }
 
-        foreach ($menus as $key => $v) {
+        foreach ($arr as $key => $v) {
+            if ($activeRoles && in_array($v['id'], $activeRoles)) {
+                $v['checked'] = true;
+            }
+            else {
+                $v['checked'] = false;
+            }
+
             if ($v['pid'] == $pid) {
-                $arr[$key] = $v;
-                $arr[$key]['child'] = self::sortArr($menus,$v['id']);
+                $results[$key] = $v;
+                $results[$key]['child'] = self::roleChildArr($arr, $v['id'], $activeRoles);
             }
         }
-        return $arr;
+
+        return $results;
     }
-
-
 
 
 }

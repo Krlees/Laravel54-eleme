@@ -28,6 +28,8 @@
                         </div>
                     @endforeach
 
+                    {!! isset($extendField)?$extendField:'' !!}
+
                     <div class="form-group">
                         <div class="col-sm-8 col-sm-offset-3">
                             <button class="btn btn-primary" type="submit">提交</button>
@@ -87,10 +89,10 @@
         },
         callback: function (data) {
             if (data.code == '0') {
-                if(targetUrl) {
-                    window.location.href=targetUrl;
+                if (targetUrl) {
+                    window.location.href = targetUrl;
                 }
-                else{
+                else {
                     window.location.reload(true);
                 }
             }

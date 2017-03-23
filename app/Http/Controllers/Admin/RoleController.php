@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\BaseController;
+use App\Presenters\Admin\RolePresenter;
 use App\Services\Admin\RoleService;
 use Illuminate\Http\Request;
 
@@ -33,7 +34,7 @@ class RoleController extends BaseController
         }
     }
 
-    public function add(Request $request)
+    public function add(Request $request, RolePresenter $presenter)
     {
         if ($request->ajax()) {
             $data = $request->input('data');
@@ -48,11 +49,15 @@ class RoleController extends BaseController
             $this->returnFieldFormat('textarea', '描述', 'data[description]');
 
             $reponse = $this->returnFormFormat('添加角色', $this->formField);
-            return view('admin/role/add', compact('reponse'));
+
+            $perms = $this->role->getGroupPermission(); // 获取所有权限数据
+            $reponse['extendField'] = $presenter->permissionList($perms['admin']); //生成权限组视图
+
+            return view('admin/role/add', compact('reponse', 'permissions'));
         }
     }
 
-    public function edit(Request $request, $id)
+    public function edit($id, Request $request, RolePresenter $presenter)
     {
         if ($request->ajax()) {
             $data = $request->input('data');
@@ -62,12 +67,17 @@ class RoleController extends BaseController
 
         } else {
             $info = $this->role->findById($id);
+            $activePerms = $this->role->findByPerms(1);
+            $activePerms = array_column($activePerms, 'id'); //角色已有的权限
+            $perms = $this->role->getGroupPermission(); // 获取所有权限数据
 
-            $this->returnFieldFormat('text', '标识', 'data[name]',$info->name);
-            $this->returnFieldFormat('text', '角色名称', 'data[display_name]',$info->display_name);
+            $this->returnFieldFormat('text', '标识', 'data[name]', $info->name);
+            $this->returnFieldFormat('text', '角色名称', 'data[display_name]', $info->display_name);
             $this->returnFieldFormat('textarea', '描述', 'data[description]', $info->description);
 
             $reponse = $this->returnFormFormat('编辑角色', $this->formField);
+            $reponse['extendField'] = $presenter->permissionList($perms['admin'], $activePerms); //生成权限组视图
+
             return view('admin/role/add', compact('reponse'));
         }
 
