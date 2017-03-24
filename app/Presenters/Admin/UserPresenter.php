@@ -73,7 +73,7 @@ Eof;
 		$html = '<div class="form-group"><label class="col-sm-2 control-label" for="email">角色</label><div class="col-sm-10">';
 		if (!$roles->isEmpty()) {
 			foreach ($roles as $role) {
-				$html .= '<div class="i-checks"><div class="col-md-3"><label> <input type="checkbox" name="role[]" '.$this->check($role->id,$userRoles).' value="'.$role->id.'"> '.$role->display_name.' [<a data-target="#myModal" data-toggle="modal" href="'.url('admin/role',[$role->id]).'">查看角色权限</a>]</label></div></div>';
+				$html .= '<div class="i-checks"><div class="col-md-3"><label> <input type="checkbox" name="role[]" '.$this->check($role->id,$userRoles).' value="'.$role->id.'"> '.$role->display_name.' [<a data-target="#myModal" data-toggle="modal" href="'.url('admin/role/show',[$role->id]).'">查看角色权限</a>]</label></div></div>';
 			}
 		}
         $html .= '</div></div>';

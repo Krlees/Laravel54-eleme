@@ -11,18 +11,18 @@ class RolePresenter
      * @param array $rolePermissions 该角色已有的权限
      * @return string
      */
-    public function permissionList($permissions,$rolePermissions=[])
+    public function permissionList($permissions, $rolePermissions = [])
     {
 
         $html = '';
-        foreach ($permissions as $key=>$val){
-            $html .= "<tr><td>".$key."</td><td>";
-            if( is_array($val) ) {
+        foreach ($permissions as $key => $val) {
+            $html .= "<tr><td>" . $key . "</td><td>";
+            if (is_array($val)) {
                 foreach ($val as $k => $v) {
                     $html .= <<<Eof
 						<div class="col-md-4">
 	                     	<div class="i-checks">
-	                        	<label> <input class="role-input" type="checkbox" name="permission[]" {$this->check($v['id'],$rolePermissions)} value="{$v['id']}"> <i></i> {$v['name']} </label>
+	                        	<label> <input class="role-input" type="checkbox" name="permission[]" {$this->check($v['id'], $rolePermissions)} value="{$v['id']}"> <i></i> {$v['name']} </label>
 	                      	</div>
                       	</div>
 Eof;
@@ -56,12 +56,12 @@ Eof;
         return $results;
     }
 
-    public function check($checkid,$checkArr)
+    public function check($checkid, $checkArr)
     {
-        if(empty($checkArr))
+        if (empty($checkArr))
             return '';
 
-        return (in_array($checkid,$checkArr)) ? 'checked="checked"' : '';
+        return (in_array($checkid, $checkArr)) ? 'checked="checked"' : '';
     }
 
     /**
@@ -76,15 +76,16 @@ Eof;
         $html = '';
         if (!$rolePermissions->isEmpty()) {
             // 将角色权限分组
-            $permissionArray = [];
+            $arr = [];
             foreach ($rolePermissions as $v) {
-                array_set($permissionArray, $v->slug, ['id' => $v->id,'name' => $v->name]);
+                array_set($arr, $v->name, ['id' => $v->id, 'name' => $v->display_name]);
             }
-            if ($permissionArray) {
-                foreach ($permissionArray as $key => $permission) {
-                    $html .= "<tr><td>".$key."</td><td>";
-                    if (is_array($permission)) {
-                        foreach ($permission as $k => $v) {
+
+            if ($arr['admin']) {
+                foreach ($arr['admin'] as $key => $val) {
+                    $html .= "<tr><td>" . $key . "</td><td>";
+                    if (is_array($val)) {
+                        foreach ($val as $k => $v) {
                             $html .= <<<Eof
 							<div class="col-md-4">
 	                        	<label> {$v['name']} </label>
@@ -96,6 +97,7 @@ Eof;
                 }
             }
         }
+
         return $html;
     }
 

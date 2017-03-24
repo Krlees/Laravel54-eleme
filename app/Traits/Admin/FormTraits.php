@@ -54,6 +54,24 @@ trait FormTraits
     }
 
     /**
+     * 返回自动生成的action,配合<returnSearchFormat>方法使用
+     *
+     * @param $url    url前两位,例如: admin/menu
+     * @param bool $autoSearch
+     * @return array
+     */
+    public function returnAutoAction($url,$autoSearch=true)
+    {
+        return [
+            'showUrl' => url($url.'/show'),
+            'addUrl' => url($url.'/add'),
+            'editUrl' => url($url.'/edit'),
+            'removeUrl' => url($url.'/remove'),
+            'autoSearch' => $autoSearch
+        ];
+    }
+
+    /**
      * 返回组装的字段数据【辅助表单】
      *
      * @param $type

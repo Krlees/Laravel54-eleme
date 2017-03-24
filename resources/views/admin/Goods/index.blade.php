@@ -1,10 +1,11 @@
+@inject('tablePresenter','App\Presenters\Admin\TablePresenter')
 <!DOCTYPE html>
 <html>
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>产品中心</title>
+    <title>商品中心</title>
 
 
 </head>
@@ -12,9 +13,13 @@
 <script>
 // 必须定义要显示的字段
 var colums = [
-    {!! createCheckbox() !!}
-    {!! createColums('ID','id') !!}
-    {!! createEvents() !!}
+    {!! $tablePresenter->jsCheckbox() !!}
+    {!! $tablePresenter->jsColums('ID','id','true') !!}
+    {!! $tablePresenter->jsColums('名称','name') !!}
+    {!! $tablePresenter->jsColums('商品分类','goodClass') !!}
+    {!! $tablePresenter->jsColums('商品价格','price') !!}
+    {!! $tablePresenter->jsColums('商品库存','storage') !!}
+    {!! $tablePresenter->jsEvents() !!}
 ];
 </script>
 

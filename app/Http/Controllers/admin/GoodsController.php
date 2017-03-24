@@ -3,17 +3,15 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\BaseController;
-use App\Repositories\GoodsRepositoryEloquent;
+use App\Services\Admin\GoodsService;
 use App\Traits\Admin\FormTraits;
 use Illuminate\Http\Request;
 
 class GoodsController extends BaseController
 {
-    use FormTraits;
 
     private $goods;
-
-    public function __construct(GoodsRepositoryEloquent $goods)
+    public function __construct(GoodsService $goods)
     {
         $this->goods = $goods;
     }
@@ -22,16 +20,15 @@ class GoodsController extends BaseController
     {
 
         if ($request->ajax()) {
-            $offset = $request->input('offset');
-            $limit = $request->input('limit', 10);
 
             // 获取商品列表
-            $results = $this->goods->ajaxGoodsList($offset, $limit);
+            $param = $this->cleanAjaxPageParam($request->all());
+            $results = $this->goods->ajaxGoodsList($param);
 
-            return $this->reponseDataTabel($results['total'], $results['rows']);
+            return $this->responseAjaxTable($results['total'],$results['rows']);
 
         } else {
-            $reponse = $this->reponseTable(url('admin/goods/index'), f, [
+            $reponse = $this->returnSearchFormat(url('admin/goods/index'),null, [
                 'addUrl' => url('admin/goods/add'),
                 'editUrl' => url('admin/goods/edit'),
                 'removeUrl' => url('admin/goods/del'),

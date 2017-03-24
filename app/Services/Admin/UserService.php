@@ -38,7 +38,7 @@ class UserService extends BaseService
 
     public function getAllRoles()
     {
-        return $this->role->all(['id','display_name']);
+        return $this->role->all(['id', 'display_name']);
     }
 
     /**
@@ -47,6 +47,21 @@ class UserService extends BaseService
     public function getUserSelects($id = 0)
     {
         return $this->user->getUserSelects($id)->toArray();
+    }
+
+    /**
+     * 获取用户已有的角色
+     * @param $id
+     * @return array
+     */
+    public function getActiveRoles($id)
+    {
+        $activeRoles = $this->findByRoles($id);
+        if (empty($activeRoles)) {
+            return [];
+        }
+
+        return array_column($activeRoles, 'id'); //用户已有的角色
     }
 
     /**
@@ -83,16 +98,16 @@ class UserService extends BaseService
      * @param $data
      * @return bool
      */
-    public function updateData($id, $data)
+    public function updateData($id, $param)
     {
-        if( $data['password'] ) {
+        $data = $param['data'];
+        if ($data['password']) {
             $data['password'] = bcrypt($data['password']);
-        }
-        else {
+        } else {
             unset($data['password']);
         }
 
-        $b = $this->user->update($data, $id);
+        $b = $this->user->update($data, $id)->roles()->sync($param['role']);
 
         return $b ?: false;
     }
@@ -104,12 +119,12 @@ class UserService extends BaseService
      */
     public function delData(array $ids)
     {
-        if( empty($ids) ){
+        if (empty($ids)) {
             return false;
         }
 
         $userModel = $this->user->model();
-        $results = $userModel::whereIn('id',$ids)->delete();
+        $results = $userModel::whereIn('id', $ids)->delete();
 
         return $results;
     }

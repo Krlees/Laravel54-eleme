@@ -37,7 +37,7 @@ class PermissionRepositoryEloquent extends BaseRepository
 
     public function getPermSelects($id)
     {
-        return $this->model->where(['pid'=>$id])->get(['name','pid','id','display_name']);
+        return $this->model->where('pid',$id)->get();
     }
 
     /**
@@ -48,11 +48,7 @@ class PermissionRepositoryEloquent extends BaseRepository
      */
     public function getPerm($user)
     {
-        $roles = Role::find($user->id);
-        if( !$roles){
-            return [];
-        }
-        $perms = $roles->perms()->get(['name'])->toArray();
+        $perms = $user->perms()->get(['name'])->toArray();
 
         return $perms;
     }

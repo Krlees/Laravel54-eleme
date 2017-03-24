@@ -32,12 +32,12 @@ class GoodsRepositoryEloquent extends BaseRepository
             $where['id'] = $id;
         }
 
-        $datas = $this->goods_class->with('goods')->where($where)->get()->toArray();
+        $datas = $this->model_class->with('model')->where($where)->get()->toArray();
         foreach ($datas as $k => $v) {
-            $datas[$k]['foods'] = $v['goods'];
+            $datas[$k]['foods'] = $v['model'];
 
-            foreach ($v['goods'] as $goods) {
-                $rating = $this->rating->where(['goods_id' => $goods['id']])->get()->toArray();
+            foreach ($v['model'] as $model) {
+                $rating = $this->rating->where(['model_id' => $model['id']])->get()->toArray();
                 foreach ($rating as $key => $v) {
                     $member_info = \DB::table('member')->find($v['userid']);
                     $rating[$key]['username'] = $member_info->username ?: '';
@@ -48,7 +48,7 @@ class GoodsRepositoryEloquent extends BaseRepository
 
             $datas[$k]['foods']['rating'] = $rating ?: [];
 
-            unset($datas[$k]['goods']);
+            unset($datas[$k]['model']);
         }
 
         return $datas;
@@ -59,7 +59,7 @@ class GoodsRepositoryEloquent extends BaseRepository
      */
     public function getGoodsClass()
     {
-        return $this->goods_class->get();
+        return $this->model_class->get();
     }
 
     /**
@@ -71,8 +71,8 @@ class GoodsRepositoryEloquent extends BaseRepository
      */
     public function ajaxGoodsList($start,$limit)
     {
-        $rows = $this->goods->offset($start)->limit($limit)->get()->toArray();
-        $total = $this->goods->count();
+        $rows = $this->model->offset($start)->limit($limit)->get()->toArray();
+        $total = $this->model->count();
 
         return compact('rows','total');
     }

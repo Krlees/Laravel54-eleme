@@ -8,14 +8,7 @@
 <body class="gray-bg">
 @component('admin/components/form',$reponse)
 @endcomponent
-@include('admin.user.modal')
-<script>
-    $(function () {
-        // 关闭modal清空内容
-        $(".modal").on("hidden.bs.modal",function(e){
-            $(this).removeData("bs.modal");
-        });
-    });
-</script>
+@include('admin.common.modal')
+
 </body>
 </html>

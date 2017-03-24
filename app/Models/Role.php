@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Config;
 
 class Role extends Model
 {
-//    use EntrustRoleTrait;
+    use EntrustRoleTrait;
 
     protected $table = "roles";
 

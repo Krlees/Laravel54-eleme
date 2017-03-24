@@ -60,15 +60,13 @@ class UsersController extends BaseController
     public function edit(Request $request, UserPresenter $presenter, $id)
     {
         if ($request->ajax()) {
-            $data = $request->input('data');
 
-            $b = $this->user->updateData($id, $data);
+            $b = $this->user->updateData($id, $request->all());
             return $b ? $this->responseData(0) : $this->responseData(400);
 
         } else {
             $info = $this->user->findById($id);
-            $activeRoles = $this->user->findByRoles($id);
-            $activeRoles = array_column($activeRoles, 'id'); //用户已有的角色
+            $activeRoles = $this->user->getActiveRoles($id);
 
             $this->returnFieldFormat('text', '名称', 'data[name]',$info->name);
             $this->returnFieldFormat('text', '密码', 'data[password]','',['placeholder'=>'不修改密码请留空']);

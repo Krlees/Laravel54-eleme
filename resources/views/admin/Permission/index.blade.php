@@ -17,6 +17,16 @@
         {!! $tablePresenter->jsEvents() !!}
     ];
 
+
+</script>
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    @component('admin/components/table',$reponse)
+    @endcomponent
+</div>
+
+<script>
     /* 初始化表格 */
     function initTable() {
         $table.bootstrapTable({
@@ -37,7 +47,6 @@
             sortOrder: "asc",
             uniqueId: uniqueId, // 设置主键
             pageList: [10, 25, 50],
-            pageSize: 3,
             sidePagination: "server",
             responseHandler: "responseHandler",
             columns: colums,
@@ -124,12 +133,5 @@
     }
 
 </script>
-</head>
-<body class="gray-bg">
-<div class="wrapper wrapper-content animated fadeInRight">
-    @component('admin/components/table',$reponse)
-    @endcomponent
-</div>
-
 </body>
 </html>

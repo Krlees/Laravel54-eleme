@@ -19,18 +19,25 @@ class AdminAuth
     public function handle($request, Closure $next)
     {
 
-//        $str = str_replace("/", ".", Route::getCurrentRoute()->uri());
-//        if (!Auth::user()->may($str)) {
-//            if ($request->ajax() && ($request->getMethod() != 'GET')) {
-//                return response()->json([
-//                    'code' => 403,
-//                    'msg' => '您没有权限执行此操作'
-//                ]);
-//            } else {
-//                return response('Unauthorized.', 403);
-//            }
-//
-//        }
+        $arr = explode("/", Route::getCurrentRoute()->uri());
+        $str = array_get($arr,0) . '.' . array_get($arr,1) . '.' . array_get($arr,2);
+        if ($str == 'admin.index.') {
+            $str = 'admin.index.index';
+        } elseif ($str == 'admin.dashboard.') {
+            $str = 'admin.index.dashboard';
+        }
+
+        if (!Auth::user()->may($str)) {
+            if ($request->ajax() && ($request->getMethod() != 'GET')) {
+                return response()->json([
+                    'code' => 403,
+                    'msg' => '您没有权限执行此操作'
+                ]);
+            } else {
+                return response('权限不足.', 403);
+            }
+
+        }
 
         return $next($request);
     }

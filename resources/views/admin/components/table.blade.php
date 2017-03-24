@@ -6,63 +6,66 @@
 <link href="{{asset('admin/css/plugins/bootstrap-table/bootstrap-editable.css')}}" rel="stylesheet">
 <link href="{{asset('admin/css/plugins/chosen/chosen.css')}}" rel="stylesheet">
 <style>
-    #searchFrom select,input{width: 100%;}
-    .fixed-table-pagination{padding: 0 12px;}
+    #searchFrom select, input {
+        width: 100%;
+    }
+
+    .fixed-table-pagination {
+        padding: 0 12px;
+    }
 </style>
 
 
+<!-- Panel Other -->
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
 
+        <div class="row row-lg">
+            <div class="col-sm-12">
+                <!-- Example Events -->
+                {{--<div class="alert alert-success" id="examplebtTableEventsResult" role="alert">--}}
+                {{--事件结果--}}
+                {{--</div>--}}
+                @if($isForm)
+                    <form class="alert form-horizontal m-t" role="form" id="searchFrom">
 
-    <!-- Panel Other -->
-    <div class="ibox float-e-margins">
-        <div class="ibox-content">
+                        <div class="row">
+                            @foreach ($searchField as $i=>$v )
+                                @if( $i%4==0)
+                        </div>
+                        <div class="row">
+                            @endif
 
-            <div class="row row-lg">
-                <div class="col-sm-12">
-                    <!-- Example Events -->
-                    {{--<div class="alert alert-success" id="examplebtTableEventsResult" role="alert">--}}
-                    {{--事件结果--}}
-                    {{--</div>--}}
-                    @if($isForm)
-                        <form class="alert form-horizontal m-t" role="form" id="searchFrom">
-
-                            <div class="row">
-                                @foreach ($searchField as $i=>$v )
-                                    @if( $i%4==0)
-                            </div>
-                            <div class="row">
-                                @endif
-
-                                <div class="col-md-3">
-                                    {{ Form::label($v['title'].':', null, ['class' => 'col-sm-4 control-label']) }}
-                                    <div class="col-sm-8" style="padding-left: 0">
-                                        {!! $formPresenter->bulidFieldHtml($v['type'],$v['name'],$v['value']) !!}
-                                    </div>
-                                </div>
-
-                                @endforeach
-                            </div>
-
-                            <div class="row">
-                                <div class="col-sm-2 col-sm-offset-1">
-                                    <button class="btn btn-w-m btn-info" type="button" id="searchRefresh">查询</button>
+                            <div class="col-md-3">
+                                {{ Form::label($v['title'].':', null, ['class' => 'col-sm-4 control-label']) }}
+                                <div class="col-sm-8" style="padding-left: 0">
+                                    {!! $formPresenter->bulidFieldHtml($v['type'],$v['name'],$v['value']) !!}
                                 </div>
                             </div>
-                        </form>
-                    @endif
-                    <div class="btn-group hidden-xs" id="toolbar" role="group">
-                        {!!  $tablePresenter->bulidCreateAction($action['addUrl']) !!}
-                        {!! $tablePresenter->bulidRemoveAction($action['removeUrl']) !!}
-                    </div>
-                    <table id="table">
-                    </table>
+
+                            @endforeach
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-2 col-sm-offset-1">
+                                <button class="btn btn-w-m btn-info" type="button" id="searchRefresh">查询</button>
+                            </div>
+                        </div>
+                    </form>
+                @endif
+                <div class="btn-group hidden-xs" id="toolbar" role="group">
+                    {!!  $tablePresenter->bulidCreateAction($action['addUrl']) !!}
+                    {!! $tablePresenter->bulidRemoveAction($action['removeUrl']) !!}
                 </div>
-                <!-- End Example Events -->
+                <table id="table">
+                </table>
             </div>
-
+            <!-- End Example Events -->
         </div>
+
     </div>
-    <!-- End Panel Other -->
+</div>
+<!-- End Panel Other -->
 
 
 <script src="{{asset('admin/js/plugins/bootstrap-table/bootstrap-table.min.js')}}"></script>
@@ -78,9 +81,9 @@
     $('select.chosen-select').chosen({});
 
     var $table = $('#table'),
-        $remove = $('#remove'),
-        selections = [], // 默认选中项
-        uniqueId = 'id'; // 主键key
+            $remove = $('#remove'),
+            selections = [], // 默认选中项
+            uniqueId = 'id'; // 主键key
 
     $(function () {
         initTable();
@@ -117,7 +120,6 @@
 
         return paramObj;
     }
-
 
 
     /* 初始化表格 */
@@ -170,8 +172,8 @@
         /* 删除事件 */
         $remove.click(function () {
             var ids = getIdSelections();
-            $.getJSON("{{$action['removeUrl']}}",{ids:ids.join(',')},function (result) {
-                if( result.code == '0' ){
+            $.getJSON("{{$action['removeUrl']}}", {ids: ids.join(',')}, function (result) {
+                if (result.code == '0') {
                     $table.bootstrapTable('remove', {
                         field: uniqueId,
                         values: ids
@@ -229,7 +231,7 @@
         for (var i = 0; i < lengths; i++) {
             switch (checks[i]) {
                 case 'view':
-                    strs += '<a class="view btn btn-xs btn-info tooltips" href="javascript:void(0)" title="查看"><i class="fa fa-eye"></i></a>　';
+                    strs += '<a class="view btn btn-xs btn-info tooltips" href="{{isset($action['showUrl'])?$action['showUrl']:''}}/' + row[uniqueId] + '" title="查看" data-toggle="modal" data-target="#myModal" data-original-title="查看" data-placement="top"><i class="fa fa-eye"></i></a>　';
                     break;
                 case 'edit':
                     strs += '<a class="edit btn btn-xs btn-outline btn-warning tooltips" href="javascript:void(0)" title="编辑"><i class="fa fa-edit"></i></a>　';
@@ -247,12 +249,12 @@
     /* 操作选项 */
     window.operateEvents = {
         'click .edit': function (e, value, row, index) {
-            window.location.href="{{$action['editUrl']}}/"+row[uniqueId];
+            window.location.href = "{{$action['editUrl']}}/" + row[uniqueId];
 //            alert('You click like action, row: ' + JSON.stringify(row));
         },
         'click .remove': function (e, value, row, index) {
-            $.getJSON("{{$action['removeUrl']}}",{ids:row[uniqueId]},function (result) {
-                if(result.code == '0' ){
+            $.getJSON("{{$action['removeUrl']}}", {ids: row[uniqueId]}, function (result) {
+                if (result.code == '0') {
                     $table.bootstrapTable('removeByUniqueId', row[uniqueId]);   // 根据uniqueId删除指定行
                 }
                 else {
@@ -276,7 +278,6 @@
     function getHeight() {
         return '';
     }
-
 
 
 </script>

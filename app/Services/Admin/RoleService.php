@@ -61,6 +61,7 @@ class RoleService extends BaseService
         return $this->role->find($role_id)->perms()->get()->toArray();
     }
 
+
     /**
      * 根据菜单ID查找数据
      * @param  [type]                   $id [description]
@@ -68,7 +69,7 @@ class RoleService extends BaseService
      */
     public function findById($id)
     {
-        $data = $this->role->find($id);
+        $data = $this->role->with('perms')->find($id);
 
         return $data ?: abort(404); // TODO替换正查找不到数据错误页面
     }

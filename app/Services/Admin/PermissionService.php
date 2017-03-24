@@ -88,6 +88,19 @@ class PermissionService extends BaseService
         return $b ?: false;
     }
 
+    public function delData($ids)
+    {
+        if( empty($ids) ){
+            return false;
+        }
+
+        $permModel = $this->permission->model();
+        $results = $permModel::whereIn('id',$ids)->delete();
+
+        return $results;
+
+    }
+
     /**
      * 递归数据
      *

@@ -13,7 +13,7 @@
             {!! $tablePresenter->jsColums('ID','id','true') !!}
             {!! $tablePresenter->jsColums('角色标识','name') !!}
             {!! $tablePresenter->jsColums('角色名称','display_name') !!}
-            {!! $tablePresenter->jsEvents() !!}
+            {!! $tablePresenter->jsEvents("'view','edit','remove'") !!}
         ];
     </script>
 </head>
@@ -23,6 +23,14 @@
     @component('admin/components/table',$reponse)
     @endcomponent
 </div>
-
+@include('admin.common.modal');
+<script>
+    $(function () {
+        // 关闭modal清空内容
+        $(".modal").on("hidden.bs.modal",function(e){
+            $(this).removeData("bs.modal");
+        });
+    });
+</script>
 </body>
 </html>

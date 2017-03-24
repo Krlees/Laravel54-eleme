@@ -45,6 +45,7 @@ Route::group(['namespace' => 'Admin','prefix' => 'admin','middleware'=>['auth','
 
     Route::group(['prefix' => 'role'], function () {
         Route::any('index', 'RoleController@index');
+        Route::any('show/{id}', 'RoleController@show');
         Route::any('add', 'RoleController@add');
         Route::any('edit/{id}', 'RoleController@edit');
         Route::any('del', 'RoleController@del');

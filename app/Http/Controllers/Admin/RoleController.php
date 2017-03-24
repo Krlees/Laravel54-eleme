@@ -28,7 +28,7 @@ class RoleController extends BaseController
             return $this->responseAjaxTable($results['total'], $results['rows']);
         } else {
 
-            $action = $this->returnActionFormat(url('admin/role/add'), url('admin/role/edit'), url('admin/role/del'));
+            $action = $this->returnAutoAction('admin/role');
             $reponse = $this->returnSearchFormat(url('admin/role/index'), null, $action);
 
             return view('admin/role/index', compact('reponse'));
@@ -99,5 +99,12 @@ class RoleController extends BaseController
 
         $results = $this->role->delData($ids);
         return $results ? $this->responseData(0,"操作成功",$results) : $this->responseData(200,"操作失败");
+    }
+
+    public function show($id)
+    {
+        $role = $this->role->findById($id);
+
+        return view('admin/role/show',compact('role'));
     }
 }

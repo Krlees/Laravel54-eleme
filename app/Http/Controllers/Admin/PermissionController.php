@@ -83,9 +83,15 @@ class PermissionController extends BaseController
 
     }
 
-    public function del()
+    public function del(Request $request)
     {
+        $ids = $request->input('ids');
+        if( !is_array($ids) ){
+            $ids = explode(",",$ids);
+        }
 
+        $results = $this->perm->delData($ids);
+        return $results ? $this->responseData(0,"操作成功",$results) : $this->responseData(200,"操作失败");
     }
 
     /**
@@ -96,6 +102,7 @@ class PermissionController extends BaseController
     public function getSubPerm($id)
     {
         $data = $this->perm->getPermSelects($id);
+
         return $data ? $this->responseData(0,"操作成功",$data) : $this->responseData(200,"操作失败");
     }
 
