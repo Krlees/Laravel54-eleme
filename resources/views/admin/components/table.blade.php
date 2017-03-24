@@ -132,7 +132,7 @@
             showToggle: true,
             showExport: true,
             detailView: true,
-//            detailFormatter: "detailFormatter",
+            detailFormatter: "detailFormatter",
             cellStyle: true,
             striped: true,
             cache: false,
@@ -143,9 +143,6 @@
             sidePagination: "server",
             responseHandler: "responseHandler",
             columns: colums,
-            onExpandRow: function (index, row, $detail) {
-                InitSubTable(index, row, $detail);
-            },
             queryParams: function (params) {   //设置查询参数
                 var paramForm = getParamSearch();
                 return $.extend({}, params, paramForm); // 合并参数
@@ -232,13 +229,13 @@
         for (var i = 0; i < lengths; i++) {
             switch (checks[i]) {
                 case 'view':
-                    strs += '<a class="view" href="javascript:void(0)" title="view"><i class="glyphicon glyphicon-eye-open"></i></a>　';
+                    strs += '<a class="view btn btn-xs btn-info tooltips" href="javascript:void(0)" title="查看"><i class="fa fa-eye"></i></a>　';
                     break;
                 case 'edit':
-                    strs += '<a class="edit" href="javascript:void(0)" title="edit"><i class="glyphicon glyphicon-edit"></i></a>　';
+                    strs += '<a class="edit btn btn-xs btn-outline btn-warning tooltips" href="javascript:void(0)" title="编辑"><i class="fa fa-edit"></i></a>　';
                     break;
                 case 'remove':
-                    strs += '<a class="remove" href="javascript:void(0)" title="Remove"> <i class="glyphicon glyphicon-remove"></i></a>　';
+                    strs += '<a class="remove btn btn-xs btn-outline btn-danger tooltips destroy_item" href="javascript:void(0)" title="删除"> <i class="fa fa-trash"></i></a>　';
                     break;
             }
         }

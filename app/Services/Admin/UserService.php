@@ -1,16 +1,19 @@
 <?php
 namespace App\Services\Admin;
 
+use App\Repositories\RoleRepositoryEloquent;
 use App\Repositories\UserRepositoryEloquent;
 use App\Services\Admin\BaseService;
 
 class UserService extends BaseService
 {
     private $user;
+    private $role;
 
-    public function __construct(UserRepositoryEloquent $user)
+    public function __construct(UserRepositoryEloquent $user, RoleRepositoryEloquent $role)
     {
         $this->user = $user;
+        $this->role = $role;
     }
 
     /**
@@ -33,6 +36,11 @@ class UserService extends BaseService
         return $results;
     }
 
+    public function getAllRoles()
+    {
+        return $this->role->all(['id','display_name']);
+    }
+
     /**
      * 获取权限 <select>
      */
@@ -53,13 +61,19 @@ class UserService extends BaseService
         return $data ?: abort(404); // TODO替换正查找不到数据错误页面
     }
 
+    public function findByRoles($id)
+    {
+        return $this->user->find($id)->roles()->get()->toArray();
+    }
+
     /**
      * 创建数据
      */
-    public function createData($data)
+    public function createData($param)
     {
+        $data = $param['data'];
         $data['password'] = bcrypt($data['password']);
-        $b = $this->user->create($data);
+        $b = $this->user->create($data)->roles()->sync($param['role']);
         return $b ?: false;
     }
 
@@ -81,6 +95,23 @@ class UserService extends BaseService
         $b = $this->user->update($data, $id);
 
         return $b ?: false;
+    }
+
+    /**
+     * 删除数据
+     *
+     * @param array $ids
+     */
+    public function delData(array $ids)
+    {
+        if( empty($ids) ){
+            return false;
+        }
+
+        $userModel = $this->user->model();
+        $results = $userModel::whereIn('id',$ids)->delete();
+
+        return $results;
     }
 
     /**

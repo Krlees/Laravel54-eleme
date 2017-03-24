@@ -5,6 +5,7 @@ use App\Models\Role;
 use App\Repositories\PermissionRepositoryEloquent;
 use App\Repositories\RoleRepositoryEloquent;
 use App\Services\Admin\BaseService;
+use Zizaco\Entrust\EntrustRole;
 
 class RoleService extends BaseService
 {
@@ -75,10 +76,15 @@ class RoleService extends BaseService
     /**
      * 创建数据
      */
-    public function createData($data)
+    public function createData($param)
     {
-        $b = $this->role->create($data);
-        return $b ?: false;
+        $data = $param['data'];
+        $permArr = isset($param['permission']) ? $param['permission'] : [];
+
+        // 创建角色并更新角色权限表
+        $roles = $this->role->create($data)->perms()->sync($permArr);
+
+        return $roles ?: false;
     }
 
     /**
@@ -87,12 +93,28 @@ class RoleService extends BaseService
      * @param $data
      * @return bool
      */
-    public function updateData($id, $data)
+    public function updateData($id, $param)
     {
-        $RoleModel = $this->role->model();
-        $b = $RoleModel::where('id', $id)->update($data);
+        $data = $param['data'];
+        $permArr = isset($param['permission']) ? $param['permission'] : [];
 
-        return $b ?: false;
+        // 更新角色并更新角色权限表
+        $roles = $this->role->update($data,$id)->perms()->sync($permArr);
+
+        return $roles ?: false;
+    }
+
+    /**
+     * 删除角色
+     *
+     * @param $ids
+     */
+    public function delData($ids)
+    {
+        $roleModel = $this->role->model();
+        $results = $roleModel::whereIn('id',$ids)->delete();
+
+        return $results;
     }
 
     /**

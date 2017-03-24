@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\BaseController;
+use App\Models\User;
 use App\Presenters\Admin\RolePresenter;
 use App\Services\Admin\RoleService;
 use Illuminate\Http\Request;
@@ -34,12 +35,17 @@ class RoleController extends BaseController
         }
     }
 
+    public function getInfo($id)
+    {
+        $this->role->getInfo($id);
+    }
+
     public function add(Request $request, RolePresenter $presenter)
     {
         if ($request->ajax()) {
-            $data = $request->input('data');
 
-            $b = $this->role->createData($data);
+
+            $b = $this->role->createData($request->all());
             return $b ? $this->responseData(0) : $this->responseData(400);
 
         } else {
@@ -60,17 +66,17 @@ class RoleController extends BaseController
     public function edit($id, Request $request, RolePresenter $presenter)
     {
         if ($request->ajax()) {
-            $data = $request->input('data');
-
-            $b = $this->role->updateData($id, $data);
+            $b = $this->role->updateData($id, $request->all());
             return $b ? $this->responseData(0) : $this->responseData(400);
 
         } else {
+            // 角色信息
             $info = $this->role->findById($id);
-            $activePerms = $this->role->findByPerms(1);
+            $activePerms = $this->role->findByPerms($id);
             $activePerms = array_column($activePerms, 'id'); //角色已有的权限
             $perms = $this->role->getGroupPermission(); // 获取所有权限数据
 
+            // 输出视图字段
             $this->returnFieldFormat('text', '标识', 'data[name]', $info->name);
             $this->returnFieldFormat('text', '角色名称', 'data[display_name]', $info->display_name);
             $this->returnFieldFormat('textarea', '描述', 'data[description]', $info->description);
@@ -86,5 +92,12 @@ class RoleController extends BaseController
     public function del(Request $request)
     {
 
+        $ids = $request->input('ids');
+        if( !is_array($ids) ){
+            $ids = explode(",",$ids);
+        }
+
+        $results = $this->role->delData($ids);
+        return $results ? $this->responseData(0,"操作成功",$results) : $this->responseData(200,"操作失败");
     }
 }

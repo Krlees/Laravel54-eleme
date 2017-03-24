@@ -48,6 +48,7 @@ Route::group(['namespace' => 'Admin','prefix' => 'admin','middleware'=>['auth','
         Route::any('add', 'RoleController@add');
         Route::any('edit/{id}', 'RoleController@edit');
         Route::any('del', 'RoleController@del');
+        Route::any('{id}', 'RoleController@getInfo');
     });
 
     Route::group(['prefix' => 'user'], function () {

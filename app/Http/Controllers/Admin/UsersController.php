@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\BaseController;
+use App\Presenters\Admin\UserPresenter;
 use App\Services\Admin\UserService;
 use Illuminate\Http\Request;
 
@@ -33,12 +34,11 @@ class UsersController extends BaseController
         }
     }
 
-    public function add(Request $request)
+    public function add(Request $request, UserPresenter $presenter)
     {
         if ($request->ajax()) {
-            $data = $request->input('data');
 
-            $b = $this->user->createData($data);
+            $b = $this->user->createData($request->all());
             return $b ? $this->responseData(0) : $this->responseData(400);
 
         } else {
@@ -47,12 +47,17 @@ class UsersController extends BaseController
             $this->returnFieldFormat('text', '密码', 'data[password]');
             $this->returnFieldFormat('email', 'email', 'data[email]');
 
+            $roles = $this->user->getAllRoles();
+            $extendField = $presenter->roleList($roles);
+
             $reponse = $this->returnFormFormat('新建用户', $this->formField);
+            $reponse['extendField'] = $extendField;
+
             return view('admin/user/add', compact('reponse'));
         }
     }
 
-    public function edit(Request $request, $id)
+    public function edit(Request $request, UserPresenter $presenter, $id)
     {
         if ($request->ajax()) {
             $data = $request->input('data');
@@ -62,18 +67,31 @@ class UsersController extends BaseController
 
         } else {
             $info = $this->user->findById($id);
+            $activeRoles = $this->user->findByRoles($id);
+            $activeRoles = array_column($activeRoles, 'id'); //用户已有的角色
 
             $this->returnFieldFormat('text', '名称', 'data[name]',$info->name);
             $this->returnFieldFormat('text', '密码', 'data[password]','',['placeholder'=>'不修改密码请留空']);
             $this->returnFieldFormat('text', 'email', 'data[email]',$info->email);
 
+            $roles = $this->user->getAllRoles();
+            $extendField = $presenter->roleList($roles,$activeRoles);
+
             $reponse = $this->returnFormFormat('编辑用户', $this->formField);
+            $reponse['extendField'] = $extendField;
+
             return view('admin/user/edit', compact('reponse'));
         }
     }
 
     public function del(Request $request)
     {
+        $ids = $request->input('ids');
+        if( !is_array($ids) ){
+            $ids = explode(",",$ids);
+        }
 
+        $results = $this->user->delData($ids);
+        return $results ? $this->responseData(0,"操作成功",$results) : $this->responseData(200,"操作失败");
     }
 }

@@ -36,10 +36,6 @@ class RoleRepositoryEloquent extends BaseRepository
         return compact('rows', 'total');
     }
 
-    public function getroleSelects($id)
-    {
-        return $this->model->where(['pid'=>$id])->get(['name','pid','id','display_name']);
-    }
 
 
 

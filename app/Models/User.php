@@ -17,9 +17,9 @@ class User extends Authenticatable
         EntrustUserTrait::can as may;
     }
 
-    use SoftDeletes {
-        restore as private restoreSoftDelete;
-    }
+//    use SoftDeletes {
+//        restore as private restoreSoftDelete;
+//    }
 
     protected $table = "users";
 
@@ -41,13 +41,13 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    protected $dates = ['deleted_at'];
+//    protected $dates = ['deleted_at'];
 
-    public function restore()
-    {
-        $this->restoreEntrust();
-        $this->restoreSoftDelete();
-    }
+//    public function restore()
+//    {
+//        $this->restoreEntrust();
+//        $this->restoreSoftDelete();
+//    }
 
 //    public function roles()
 //    {

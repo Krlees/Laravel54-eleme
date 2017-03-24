@@ -17,8 +17,8 @@
 
                     @foreach ($formField as $i=>$v )
                         <div class="form-group">
-                            {!! Form::label($v['title'], null, ['class' => 'col-sm-3 control-label']) !!}
-                            <div class="col-sm-8">
+                            {!! Form::label($v['title'], null, ['class' => 'col-sm-2 control-label']) !!}
+                            <div class="col-sm-10">
                                 {!! $formPresenter->bulidFieldHtml($v['type'],$v['name'],$v['value'],$v['options']) !!}
                                 @if( isset($v['tips']) )
                                     <span class="m-b-none"><i
@@ -29,11 +29,11 @@
                     @endforeach
 
                     {!! isset($extendField)?$extendField:'' !!}
-
+                    <div class="hr-line-dashed"></div>
                     <div class="form-group">
-                        <div class="col-sm-8 col-sm-offset-3">
-                            <button class="btn btn-primary" type="submit">提交</button>
-                            <a href="javascript:" onclick="javascript:history.go(-1)" class="btn btn-default" id="back">返回</a>
+                        <div class="col-sm-4 col-sm-offset-2">
+                            <button class="btn btn-primary" type="submit"><i class="fa fa-paper-plane-o"></i> 提交</button>
+                            <a href="javascript:" onclick="javascript:history.go(-1)" class="btn btn-white" id="back"><i class="fa fa-reply"></i> 返回</a>
                         </div>
                     </div>
                     {!! Form::close() !!}
