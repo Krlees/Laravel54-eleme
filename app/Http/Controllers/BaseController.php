@@ -68,6 +68,8 @@ class BaseController extends Controller
     }
 
 
+
+
     /**
      * 返回bootstrap-table需要的数据格式
      *

@@ -98,4 +98,12 @@ class GoodsRepositoryEloquent extends BaseRepository
     {
     }
 
+    public function apiGoods()
+    {
+        $json = file_get_contents(app_path('data.json'));
+        $goods = json_decode($json, true);
+
+        return $goods['goods'];
+    }
+
 }

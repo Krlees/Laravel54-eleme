@@ -26,16 +26,20 @@ class RatingRepositoryEloquent extends BaseRepository
     public function getSellerRating($seller_id)
     {
 
-        $data = $this->model->where(['seller_id' => $seller_id])->get();
-        foreach ($data as $k => $v) {
-            $member_info = MemberModel::where(['id' => $v['userid']])->first(['username','avatar']);
+//        $data = $this->model->where(['seller_id' => $seller_id])->get();
+//        foreach ($data as $k => $v) {
+//            $member_info = MemberModel::where(['id' => $v['userid']])->first(['username','avatar']);
+//
+//            $data[$k]['recommend'] = $v['recommend'] ? explode(",", $v['recommend']) : '';
+//            $data[$k]['username'] = $member_info->username ?: '';
+//            $data[$k]['avatar'] = $member_info->avatar ?: '';
+//        }
+        $json = file_get_contents(app_path('data.json'));
+        $arr = json_decode($json, true);
 
-            $data[$k]['recommend'] = $v['recommend'] ? explode(",", $v['recommend']) : '';
-            $data[$k]['username'] = $member_info->username ?: '';
-            $data[$k]['avatar'] = $member_info->avatar ?: '';
-        }
 
-        return $data;
+        return $arr['ratings'];
+
     }
 
     public function getGoodsRating($goods_id)

@@ -17,7 +17,8 @@ class RatingController extends Controller
 
     public function getSellerRating()
     {
-        return $this->rating->getSellerRating(1);
+        $data = $this->rating->getSellerRating(1);
+        return $this->responseApi(0, $data);
     }
 
 

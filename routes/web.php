@@ -72,6 +72,9 @@ Route::group(['namespace' => 'Admin','prefix' => 'admin','middleware'=>['auth','
 });
 
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
+Route::get('wap', function (){
+    return view('Eleme');
+});
 
 
 //

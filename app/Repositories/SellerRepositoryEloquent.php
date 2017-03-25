@@ -29,4 +29,13 @@ class SellerRepositoryEloquent extends BaseRepository
         return SellerCountModel::find($id);
     }
 
+    public function getSeller($id)
+    {
+        $json = file_get_contents(app_path('data.json'));
+        $arr = json_decode($json, true);
+
+
+        return $arr['seller'];
+    }
+
 }

@@ -19,4 +19,4 @@ use Illuminate\Http\Request;
 
 Route::any('seller','api\SellerController@getSeller');
 Route::any('goods','api\GoodsController@getGoods');
-Route::any('rating','api\RatingController@getSellerRating');
+Route::any('ratings','api\RatingController@getSellerRating');

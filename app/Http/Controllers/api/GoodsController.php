@@ -17,6 +17,8 @@ class GoodsController extends Controller
 
     public function getGoods(Request $request)
     {
-        return $this->goods->getGoods();
+        $data = $this->goods->getGoods();
+
+        return $this->responseApi(0,$data);
     }
 }

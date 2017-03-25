@@ -17,7 +17,8 @@ class SellerController extends Controller
 
     public function getSeller()
     {
-        $this->seller->getSeller(1);
+        $data =  $this->seller->getSeller(1);
+        return $this->responseApi(0,$data);
     }
 
 

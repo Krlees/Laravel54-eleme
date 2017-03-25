@@ -11,4 +11,14 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    /**
+     * 返回API需要的数据格式
+     * @param $errno
+     * @param array $data
+     */
+    public function responseApi($errno=0, $data=[])
+    {
+        return response()->json(compact('errno','data'));
+    }
+
 }
