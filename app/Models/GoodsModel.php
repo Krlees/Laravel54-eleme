@@ -39,7 +39,9 @@ class GoodsModel extends Model
      *
      * @var array
      */
-    // protected $fillable = ['name'];
+     protected $fillable = [
+         'name','description','info','price','oldPrice','storage','flag','status'
+     ];
 
     /**
      * 不可被批量赋值的属性。
@@ -53,7 +55,7 @@ class GoodsModel extends Model
     protected $foreignKey = 'goods_id';
 
 
-    public function goods_class(){
+    public function category(){
         return $this->belongsToMany('App\Models\GoodsClassModel','goods_class_connect',$this->foreignKey,'class_id');
     }
 

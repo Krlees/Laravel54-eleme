@@ -1,6 +1,7 @@
 <?php
 namespace App\Services\Admin;
 
+use App\Repositories\GoodsClassRepositoryEloquent;
 use App\Repositories\GoodsRepositoryEloquent;
 use App\Services\Admin\BaseService;
 use Exception, DB;
@@ -8,10 +9,12 @@ use Exception, DB;
 class GoodsService extends BaseService
 {
     private $goods;
+    private $goodsClss;
 
-    public function __construct(GoodsRepositoryEloquent $goods)
+    public function __construct(GoodsRepositoryEloquent $goods,GoodsClassRepositoryEloquent $goodsClss)
     {
         $this->goods = $goods;
+        $this->goodsClass = $goodsClss;
     }
 
     public function getTopGoods()
@@ -46,38 +49,58 @@ class GoodsService extends BaseService
      */
     public function findGoodsById($id)
     {
-        $goods = $this->goods->find($id);
-        if ($goods){
-            return $goods;
-        }
-        // TODO替换正查找不到数据错误页面
-        abort(404);
+        $goods = $this->goods->with('category')->find($id)->toArray();
+
+        return $goods;
     }
 
     /**
      * 获取菜单 <select>
      */
-    public function getGoodsSelects($id=0)
+    public function getAllClassSelects()
     {
-        return $this->goods->getGoodsSelects($id)->toArray();
+        return $this->goodsClass->getAllClass()->toArray();
+    }
+
+    public function getSubClass($id)
+    {
+        return $this->goodsClass->getSubClass($id);
     }
 
     /**
      * 创建数据
      */
-    public function createData($data)
+    public function createData($param)
     {
-        $goodsModel = $this->goods->model();
-        $b = $goodsModel::create($data);
+        $data = $param['data'];
+        $results = $this->goods->create($data)->category()->sync($param['ids']);
 
-        return $b ?: false;
+        return $results ?: false;
     }
 
-    public function updateData($data, $id){
+    public function updateData($param, $id)
+    {
+        $data = $param['data'];
+        $data['flag'] = implode($data['flag'],",");
 
-        $b = $this->goods->update($data,$id);
+        $results = $this->goods->update($data,$id)->category()->sync($param['ids']);;
 
-        return $b ?: false;
+        return $results ?: false;
+    }
+
+    public function delData($ids)
+    {
+        if( empty($ids) ){
+            return false;
+        }
+
+        $goodsModel = $this->goods->model();
+        $m = $goodsModel::whereIn('id',$ids);
+        $results = $m->delete();
+        DB::table('goods_class_connect')->whereIn('goods_id',$ids)->delete();
+
+        return $results;
+
     }
 
 

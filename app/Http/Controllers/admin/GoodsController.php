@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\BaseController;
+use App\Presenters\Admin\GoodsPresenter;
 use App\Services\Admin\GoodsService;
 use App\Traits\Admin\FormTraits;
 use Illuminate\Http\Request;
@@ -57,50 +58,97 @@ class GoodsController extends BaseController
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function add(Request $request)
+    public function add(Request $request, GoodsPresenter $presenter)
     {
 
         if ($request->isMethod('post')) {
-            return $this->reponseData();
+            $results = $this->goods->createData($request->all());
+            return $results ? $this->responseData(0,"操作成功",$results) : $this->responseData(200,"操作失败");
         } else {
 
-            $formField = [
-                returnformField('text', '商品名称', 'name'),
-                returnformField('file', '图片', 'imgs'),
-                returnformField('checkbox', '标记', 'flag', [
-                    [
-                        'text' => '推荐',
-                        'value' => '推荐',
-                        'checked' => true,
-                    ],
-                    [
-                        'text' => '新品',
-                        'value' => '新品',
-                    ]
-                ]),
-                returnformField('radio', '状态', 'status', [
-                    [
-                        'text' => '上架',
-                        'value' => '2',
-                        'checked' => true,
-                    ],
-                    [
-                        'text' => '下架',
-                        'value' => '0',
-                    ]
-                ]),
-                returnformField('select', '商品分类', 'class_id', $this->getClassSelect(1)),
-            ];
+            $this->returnFieldFormat('text', '商品名称', 'data[name]');
+            $this->returnFieldFormat('text', '价格', 'data[price]');
+            $this->returnFieldFormat('text', '市场价格', 'data[oldPrice]');
+            $this->returnFieldFormat('text', '库存', 'data[storage]');
+            $this->returnFieldFormat('textarea', '商品描述', 'data[description]');
+            $this->returnFieldFormat('textarea', '详情', 'data[info]');
+            $this->returnFieldFormat('checkbox', '标记', 'data[flag]', [
+                [
+                    'text' => '推荐',
+                    'value' => '推荐',
+                    'checked' => true,
+                ],
+                [
+                    'text' => '新品',
+                    'value' => '新品',
+                ]
+            ]);
+            $this->returnFieldFormat('radio', '状态', 'data[status]', [
+                [
+                    'text' => '上架',
+                    'value' => '2',
+                    'checked' => true,
+                ],
+                [
+                    'text' => '下架',
+                    'value' => '0',
+                ]
+            ]);
 
-            $reponse = $this->reponseForm('添加商品', $formField);
+            $classSelects = $this->goods->getAllClassSelects();
+            $extendField = $presenter->classSelect($classSelects);
+
+            $reponse = $this->returnFormFormat('添加商品', $this->formField);
+            $reponse['extendField'] = $extendField;
             return view('admin/goods/add', compact('reponse'));
         }
 
     }
 
-    public function edit()
+    public function edit($id, Request $request, GoodsPresenter $presenter)
     {
+        if ($request->isMethod('post')) {
+            $results = $this->goods->updateData($request->all(),$id);
+            return $results ? $this->responseData(0,"操作成功",$results) : $this->responseData(200,"操作失败");
+        } else {
+            $info = $this->goods->findGoodsById($id);
 
+            $this->returnFieldFormat('text', '商品名称', 'data[name]',$info['name']);
+            $this->returnFieldFormat('text', '价格', 'data[price]',$info['price']);
+            $this->returnFieldFormat('text', '市场价格', 'data[oldPrice]',$info['oldPrice']);
+            $this->returnFieldFormat('text', '库存', 'data[storage]',$info['storage']);
+            $this->returnFieldFormat('textarea', '商品描述', 'data[description]',$info['description']);
+            $this->returnFieldFormat('textarea', '详情', 'data[info]',$info['info']);
+            $this->returnFieldFormat('checkbox', '标记', 'data[flag][]', [
+                [
+                    'text' => '推荐',
+                    'value' => '推荐',
+                ],
+                [
+                    'text' => '新品',
+                    'value' => '新品',
+                ]
+            ]);
+            $this->returnFieldFormat('radio', '状态', 'data[status]', [
+                [
+                    'text' => '上架',
+                    'value' => '2',
+                ],
+                [
+                    'text' => '下架',
+                    'value' => '0',
+                ]
+            ]);
+
+            $classSelects = $this->goods->getAllClassSelects();
+            $extendField = $presenter->classSelect($classSelects,$info['category']);
+
+            $reponse = $this->returnFormFormat('添加商品', $this->formField);
+            $reponse['extendField'] = $extendField;
+            $reponse['info'] = $info;
+
+            return view('admin/goods/edit', compact('reponse'));
+        }
     }
 
     public function del(Request $request)
@@ -110,20 +158,21 @@ class GoodsController extends BaseController
             $ids = explode(",",$ids);
         }
 
-        return $this->reponseData(0,'', $ids);
+        $results = $this->goods->delData($ids);
+        return $results ? $this->responseData(0,"操作成功",$results) : $this->responseData(200,"操作失败");
+
     }
 
 
     /**
-     * 返回已处理好的【select框】商品分类
-     *
-     * @param bool $class_id 分类id,为0则不帅选
-     * @return Array
+     * 返回子分类
+     * @param int $pid
      */
-    private function getClassSelect($class_id = 0)
+    public function getSubClass($pid = 0)
     {
-        $class_data = $this->goods->getGoodsClass()->toArray();
-        return $this->returnSelectFormat($class_data, 'name', 'id', $class_id);
+        $results = $this->goods->getSubClass($pid);
+
+        return $results ? $this->responseData(0,"操作成功",$results) : $this->responseData(200,"操作失败");
     }
 
 

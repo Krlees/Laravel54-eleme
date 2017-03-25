@@ -50,24 +50,7 @@
 
     })
 
-    function getDatas(id) {
 
-
-        $.getJSON("{{url('admin/permission/get-sub-perm')}}" + "/" + id, {}, function (result) {
-
-            var htmls = "";
-            if (result.code == '0') {
-                $.each(result.data, function (i, v) {
-                    htmls += "<option value='" + v.id + "'>" + v.display_name + "</option>";
-                })
-            }
-
-            return 1;
-
-        })
-
-
-    }
 </script>
 </body>
 </html>

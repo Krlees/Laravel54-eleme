@@ -21,27 +21,33 @@ class FormPresenter
         switch ($type) {
 
             case 'checkbox':
-                $opt = ['class' => 'form-control checkbox-inline'];
+                $opt = ['class' => 'form-control checkbox-inline', 'style' => 'width: 20px'];
                 $options = array_merge($options, $opt);
                 if (!is_array($value) || empty($value)) {
                     return "error: 数据为空,请检查";
                 }
 
+                $htmls = '';
                 foreach ($value as $k => $v) {
-                    return '<label class="checkbox-inline">' . Form::checkbox($name, $v['value'], isset($v['checked']) ? $v['checked'] : false, $options) . $v['text'] . '</label>';
+                    $htmls .= '<label class="checkbox-inline">' . Form::checkbox($name, $v['value'], isset($v['checked']) ? $v['checked'] : false, $options) . $v['text'] . '</label>';
                 }
+
+                return $htmls;
                 break;
 
             case 'radio':
-                $opt = ['class' => 'form-control radio-inline'];
+                $opt = ['class' => 'form-control radio-inline', 'style' => 'width: 20px'];
                 $options = array_merge($options, $opt);
                 if (!is_array($value) || empty($value)) {
                     return "error: 数据为空,请检查";
                 }
 
+                $htmls = '';
                 foreach ($value as $k => $v) {
-                    return '<label class="radio-inline">' . Form::radio($name, $v['value'], isset($v['checked']) ? $v['checked'] : false, $options) . $v['text'] . '</label>';
+                    $htmls .= '<label class="radio-inline">' . Form::radio($name, $v['value'], isset($v['checked']) ? $v['checked'] : false, $options) . $v['text'] . '</label>';
                 }
+
+                return $htmls;
                 break;
 
             case 'select':

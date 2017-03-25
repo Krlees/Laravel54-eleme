@@ -30,8 +30,10 @@ Route::group(['namespace' => 'Admin','prefix' => 'admin','middleware'=>['auth','
     Route::group(['prefix' => 'goods'], function () {
         Route::any('index', 'GoodsController@index');
         Route::any('add', 'GoodsController@add');
-        Route::any('edit', 'GoodsController@edit');
+        Route::any('edit/{id}', 'GoodsController@edit');
         Route::any('del', 'GoodsController@del');
+        Route::any('get-sub-class/{id}', 'GoodsController@getSubClass');
+
     });
 
     // 权限管理
@@ -68,6 +70,8 @@ Route::group(['namespace' => 'Admin','prefix' => 'admin','middleware'=>['auth','
     });
 
 });
+
+Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
 
 //

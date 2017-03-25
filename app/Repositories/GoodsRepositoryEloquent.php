@@ -71,6 +71,7 @@ class GoodsRepositoryEloquent extends BaseRepository
      */
     public function ajaxGoodsList($start,$limit)
     {
+//        $rows = $this->model->with('category')->offset($start)->limit($limit)->get()->toArray();
         $rows = $this->model->offset($start)->limit($limit)->get()->toArray();
         $total = $this->model->count();
 
@@ -78,11 +79,23 @@ class GoodsRepositoryEloquent extends BaseRepository
     }
 
     /**
-     * 返回前台API需要的数据
+     * 顶级分类
      */
-    public function apiGoods()
+    public function getTopGoods()
+    {
+        return $this->model->where('pid',0)->get();
+    }
+
+    /**
+     * 子分类
+     */
+    public function getSubGoods($id)
     {
         return $this->model->get();
+    }
+
+    public function delGoods()
+    {
     }
 
 }

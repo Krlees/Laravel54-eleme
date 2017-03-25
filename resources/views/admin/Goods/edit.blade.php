@@ -10,8 +10,17 @@
 @endcomponent
 
 <script type="text/javascript">
+
+    var flag = "{{$reponse['info']['flag']}}";
+    $("input[name='data[status]'][value='{{$reponse['info']['status']}}']").attr("checked",true);
+    $("input[name='data[flag][]']").each(function () {
+        if( flag ){
+            if( flag.indexOf($(this).val()) >= 0 ){
+                $(this).attr("checked",true);
+            }
+        }
+    });
     $(function () {
-        $('#sub_chosen').hide();
         $('#top').change(function () {
             var id = $(this).val();
             var selectHtmls = "";
